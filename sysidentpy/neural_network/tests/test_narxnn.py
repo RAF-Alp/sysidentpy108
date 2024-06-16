@@ -606,3 +606,153 @@ def test_steps_3_fourier():
     model.fit(X=X_train, y=y_train)
     yhat = model.predict(X=X_test, y=y_test, steps_ahead=3)
     assert_almost_equal(yhat.mean(), y_test.mean(), decimal=2)
+
+def test_split_data_y_is_none():
+    model = NARXNN(
+        ylag=2,
+        xlag=2,
+        basis_function=Polynomial(),
+        model_type="NARMAX",
+    )
+    assert_raises(ValueError, model.split_data, X_train, None)
+
+def test_split_data_polynomial_basis():
+    model = NARXNN(
+        ylag=2,
+        xlag=2,
+        basis_function=Polynomial(),
+        model_type="NARMAX",
+    )
+    reg_matrix, y = model.split_data(X_train, y_train)
+    assert reg_matrix.shape[1] > 0  # Ensuring reg_matrix is created
+
+def test_split_data_non_polynomial_ensemble_true():
+    class CustomBasisFunction:
+        def __init__(self):
+            self.ensemble = True
+            self.repetition = 2
+
+        def fit(self, X, y):
+            return np.random.rand(X.shape[0], X.shape[1]), None
+
+    model = NARXNN(
+        ylag=2,
+        xlag=[[2], [2], [2], [2], [2]],
+        basis_function=CustomBasisFunction(),
+        model_type="NARMAX",
+    )
+    reg_matrix, y = model.split_data(X_train, y_train)
+    assert reg_matrix.shape[1] > 0  # Ensuring reg_matrix is created
+
+def test_split_data_non_polynomial_ensemble_false():
+    class CustomBasisFunction:
+        def __init__(self):
+            self.ensemble = False
+            self.repetition = 2
+
+        def fit(self, X, y):
+            return np.random.rand(X.shape[0], X.shape[1]), None
+
+    model = NARXNN(
+        ylag=2,
+        xlag=[[2], [2], [2], [2], [2]],
+        basis_function=CustomBasisFunction(),
+        model_type="NARMAX",
+    )
+    reg_matrix, y = model.split_data(X_train, y_train)
+    assert reg_matrix.shape[1] > 0  # Ensuring reg_matrix is created
+
+def test_fit_with_no_verbose():
+    basis_function = Polynomial(degree=1)
+
+    regressors = regressor_code(
+        X=X_train,
+        xlag=2,
+        ylag=2,
+        model_type="NARMAX",
+        model_representation="neural_network",
+        basis_function=basis_function,
+    )
+    n_features = regressors.shape[0]
+
+    class NARX(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.lin = nn.Linear(n_features, 30)
+            self.lin2 = nn.Linear(30, 30)
+            self.lin3 = nn.Linear(30, 1)
+            self.tanh = nn.Tanh()
+
+        def forward(self, xb):
+            z = self.lin(xb)
+            z = self.tanh(z)
+            z = self.lin2(z)
+            z = self.tanh(z)
+            z = self.lin3(z)
+            return z
+
+    model = NARXNN(
+        net=NARX(),
+        ylag=2,
+        xlag=2,
+        basis_function=basis_function,
+        model_type="NARMAX",
+        loss_func="mse_loss",
+        optimizer="Adam",
+        epochs=10,
+        verbose=False,
+        optim_params={
+            "betas": (0.9, 0.999),
+            "eps": 1e-05,
+        },  # optional parameters of the optimizer
+    )
+
+    model.fit(X=X_train, y=y_train)
+    assert_equal(model.max_lag, 2)
+
+def test_fit_with_verbose_no_test_data():
+    basis_function = Polynomial(degree=1)
+
+    regressors = regressor_code(
+        X=X_train,
+        xlag=2,
+        ylag=2,
+        model_type="NARMAX",
+        model_representation="neural_network",
+        basis_function=basis_function,
+    )
+    n_features = regressors.shape[0]
+
+    class NARX(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.lin = nn.Linear(n_features, 30)
+            self.lin2 = nn.Linear(30, 30)
+            self.lin3 = nn.Linear(30, 1)
+            self.tanh = nn.Tanh()
+
+        def forward(self, xb):
+            z = self.lin(xb)
+            z = self.tanh(z)
+            z = self.lin2(z)
+            z = self.tanh(z)
+            z = self.lin3(z)
+            return z
+
+    model = NARXNN(
+        net=NARX(),
+        ylag=2,
+        xlag=2,
+        basis_function=basis_function,
+        model_type="NARMAX",
+        loss_func="mse_loss",
+        optimizer="Adam",
+        epochs=10,
+        verbose=True,
+        optim_params={
+            "betas": (0.9, 0.999),
+            "eps": 1e-05,
+        },  # optional parameters of the optimizer
+    )
+
+    assert_raises(ValueError, model.fit, X=X_train, y=y_train, X_test=None, y_test=None)
