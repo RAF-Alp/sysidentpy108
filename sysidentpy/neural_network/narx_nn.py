@@ -35,10 +35,25 @@ FLAG: Dict[str, list] = {}  # Define FLAG at the module level
 'flag(id:branch) will be added once the branch is reached'
 
 def print_coverage():
+    total_branches = 0
+    covered_branches = 0
+    
     for func, flags in FLAG.items():
         print(f"Coverage for {func}:")
+        func_total_branches = len(flags)
+        func_covered_branches = sum(flags)
+        
+        total_branches += func_total_branches
+        covered_branches += func_covered_branches
+        
         for i, flag in enumerate(flags):
             print(f"  Branch {i + 1}: {'Reached' if flag else 'Not Reached'}")
+        
+        func_coverage_percentage = (func_covered_branches / func_total_branches) * 100
+        print(f"  Function Coverage: {func_covered_branches}/{func_total_branches} ({func_coverage_percentage:.2f}%)")
+    
+    overall_coverage_percentage = (covered_branches / total_branches) * 100
+    print(f"\nOverall Coverage: {covered_branches}/{total_branches} ({overall_coverage_percentage:.2f}%)")
 
 class NARXNN(BaseMSS):
     """NARX Neural Network model build on top of Pytorch.
