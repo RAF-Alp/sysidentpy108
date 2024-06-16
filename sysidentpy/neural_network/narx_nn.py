@@ -830,6 +830,37 @@ class NARXNN(BaseMSS):
         yhat = yhat.ravel()
         return yhat.reshape(-1, 1)
 if __name__ == "__main__":
-    # Assuming you have code here to run your main functionality
-    # After the main functionality, call print_coverage to print the branch coverage information
+    # Example data
+    X_train = np.random.rand(100, 5)
+    y_train = np.random.rand(100, 1)
+    X_test = np.random.rand(20, 5)
+    y_test = np.random.rand(20, 1)
+
+    # Instantiate the NARXNN class
+    narx_nn = NARXNN(
+        ylag=2,
+        xlag=[[2], [2], [2], [2], [2]],  # Ensure xlag matches the number of features in X_train
+        basis_function=Polynomial(),
+        model_type="NARMAX",
+        loss_func='mse_loss',
+        optimizer='Adam',
+        epochs=200,
+        verbose=False,
+        optim_params={'betas': (0.9, 0.999), 'eps': 1e-05},
+        net=torch.nn.Linear(35, 1)  # Update the input dimension to match the output of build_matrix
+    )
+
+    # Run main functionality
+    try:
+        reg_matrix, y = narx_nn.split_data(X_train, y_train)
+        print(f"split_data returned reg_matrix shape: {reg_matrix.shape}, y shape: {y.shape}")
+    except ValueError as e:
+        print(f"split_data raised ValueError: {e}")
+    
+    try:
+        narx_nn.fit(X=X_train, y=y_train, X_test=X_test, y_test=y_test)
+    except ValueError as e:
+        print(f"fit raised ValueError: {e}")
+
+    # Call print_coverage to print the branch coverage information
     print_coverage()
