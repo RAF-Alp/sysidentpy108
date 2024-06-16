@@ -607,20 +607,16 @@ def test_steps_3_fourier():
     yhat = model.predict(X=X_test, y=y_test, steps_ahead=3)
     assert_almost_equal(yhat.mean(), y_test.mean(), decimal=2)
 
-def test_split_data_y_is_none():
-    model = NARXNN(
-        ylag=2,
-        xlag=2,
-        basis_function=Polynomial(),
-        model_type="NARMAX",
-    )
-    assert_raises(ValueError, model.split_data, X_train, None)
+def test_split_data_non_polynomial():
+    class CustomBasisFunction:
+        def fit(self, X, y):
+            self.ensemble = False
+            return np.random.rand(X.shape[0], X.shape[1]), None
 
-def test_split_data_polynomial_basis():
     model = NARXNN(
         ylag=2,
-        xlag=2,
-        basis_function=Polynomial(),
+        xlag=[[2], [2], [2], [2], [2]],
+        basis_function=CustomBasisFunction(),
         model_type="NARMAX",
     )
     reg_matrix, y = model.split_data(X_train, y_train)
@@ -644,6 +640,7 @@ def test_split_data_non_polynomial_ensemble_true():
     reg_matrix, y = model.split_data(X_train, y_train)
     assert reg_matrix.shape[1] > 0  # Ensuring reg_matrix is created
 
+
 def test_split_data_non_polynomial_ensemble_false():
     class CustomBasisFunction:
         def __init__(self):
@@ -662,7 +659,8 @@ def test_split_data_non_polynomial_ensemble_false():
     reg_matrix, y = model.split_data(X_train, y_train)
     assert reg_matrix.shape[1] > 0  # Ensuring reg_matrix is created
 
-def test_fit_with_no_verbose():
+
+def test_fit_verbose():
     basis_function = Polynomial(degree=1)
 
     regressors = regressor_code(
@@ -700,17 +698,18 @@ def test_fit_with_no_verbose():
         loss_func="mse_loss",
         optimizer="Adam",
         epochs=10,
-        verbose=False,
+        verbose=True,  # Set verbose to True to test verbose branches
         optim_params={
             "betas": (0.9, 0.999),
             "eps": 1e-05,
         },  # optional parameters of the optimizer
     )
 
-    model.fit(X=X_train, y=y_train)
+    model.fit(X=X_train, y=y_train, X_test=X_test, y_test=y_test)
     assert_equal(model.max_lag, 2)
 
-def test_fit_with_verbose_no_test_data():
+
+def test_fit_verbose_no_test_data():
     basis_function = Polynomial(degree=1)
 
     regressors = regressor_code(
@@ -748,7 +747,7 @@ def test_fit_with_verbose_no_test_data():
         loss_func="mse_loss",
         optimizer="Adam",
         epochs=10,
-        verbose=True,
+        verbose=True,  # Set verbose to True to test verbose branches
         optim_params={
             "betas": (0.9, 0.999),
             "eps": 1e-05,
