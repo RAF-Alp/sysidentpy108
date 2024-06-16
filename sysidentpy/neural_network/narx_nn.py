@@ -30,7 +30,7 @@ logging.basicConfig(
 
 # FLAG : Dict = {}
 
-FLAG: Dict[str, list] = {}  # Define FLAG at the module level
+FLAG: Dict[str, list] = {}
 
 'flag(id:branch) will be added once the branch is reached'
 
@@ -277,7 +277,6 @@ class NARXNN(BaseMSS):
 
     def split_data(self, X, y):
         """Return the lagged matrix and the y values given the maximum lags."""
-        # Initialize coverage flags for this function
         if 'split_data' not in FLAG:
             FLAG['split_data'] = [0] * 9
 
@@ -308,7 +307,7 @@ class NARXNN(BaseMSS):
             self.n_inputs = _num_features(X)
         else:
             FLAG['split_data'][5] = 1
-            self.n_inputs = 1  # only used to create the regressor space base
+            self.n_inputs = 1
 
         self.regressor_code = self.regressor_space(self.n_inputs)
         if basis_name != "Polynomial" and self.basis_function.ensemble:
@@ -333,7 +332,7 @@ class NARXNN(BaseMSS):
             FLAG['split_data'][8] = 1
             self.regressor_code = self.regressor_code[
                 1:
-            ]  # removes the column of the constant
+            ]
 
         self.final_model = self.regressor_code.copy()
         reg_matrix = np.atleast_1d(reg_matrix).astype(np.float32)
@@ -410,7 +409,6 @@ class NARXNN(BaseMSS):
 
     def fit(self, *, X=None, y=None, X_test=None, y_test=None):
         """Train a NARX Neural Network model."""
-        # Initialize coverage flags for this function
         if 'fit' not in FLAG:
             FLAG['fit'] = [0] * 6
 
