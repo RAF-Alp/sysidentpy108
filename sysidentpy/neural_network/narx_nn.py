@@ -409,7 +409,13 @@ class NARXNN(BaseMSS):
         Tensors : Dataloader
 
         """
+        if '_data_transform' not in FLAG:
+            FLAG['_data_transform'] = [0] * 2
+
+        FLAG['_data_transform'][0] = 1
+
         if y is None:
+            FLAG['_data_transform'][1] = 1
             raise ValueError("y cannot be None")
 
         x_train, y_train = self.split_data(X, y)
@@ -904,5 +910,12 @@ if __name__ == "__main__":
         print("Prediction successful. Output shape:", y_pred.shape)
     except Exception as e:
         print("An error occurred during 1-step ahead prediction:", str(e))
+
+    try:
+        train_dl = narx_nn.data_transform(X_train, y_train)
+        print("Data transformation successful. Dataloader type:", type(train_dl))
+    except Exception as e:
+        print("An error occurred during data transformation:", str(e))
+
 
 print_coverage()
