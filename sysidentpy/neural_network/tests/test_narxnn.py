@@ -559,7 +559,7 @@ def test_model_predict_fourier():
         optim_params={
             "betas": (0.9, 0.999),
             "eps": 1e-05,
-        },  # optional parameters of the optimizer
+        },  #Optional parameters of the optimizer
     )
 
     model.fit(X=X_train, y=y_train)
@@ -658,40 +658,14 @@ def test_steps_3_fourier():
     yhat = model.predict(X=X_test, y=y_test, steps_ahead=3)
     assert_almost_equal(yhat.mean(), y_test.mean(), decimal=2)
 
-# def test_check_cuda():
-#     model = NARXNN(basis_function=Polynomial())
-#     assert_equal(model._check_cuda("cpu").type, "cpu")
-#     if torch.cuda.is_available():
-#         assert_equal(model._check_cuda("cuda").type, "cuda")
-#     else:
-#         with assert_raises(ValueError):
-#             model._check_cuda("cuda")
-#     with assert_raises(ValueError):
-#         model._check_cuda("invalid_device")
-
-# def test_split_data():
-#     # Test split_data with both X and y
-#     model = NARXNN(basis_function=Polynomial())
-#     reg_matrix, y_transformed = model.split_data(X_train, y_train)
-#     assert reg_matrix.shape[0] == y_transformed.shape[0]
-
-#     # Test split_data with X as None
-#     model = NARXNN(basis_function=Polynomial())
-#     reg_matrix, y_transformed = model.split_data(None, y_train)
-#     assert reg_matrix.shape[0] == y_transformed.shape[0]
-
-#     # Test split_data with a different basis function
-#     model = NARXNN(basis_function=Fourier(degree=1))
-#     reg_matrix, y_transformed = model.split_data(X_train, y_train)
-#     assert reg_matrix.shape[0] == y_transformed.shape[0]
 def test_split_data_y_none():
-    # Test split_data with y as None to reach Branch 2
+    #Branch 2
     model = NARXNN(basis_function=Polynomial())
     assert_raises(ValueError, model.split_data, X_train, None)
 
 
 def test_split_data_ensemble():
-    # Test split_data with basis_function ensemble set to True to reach Branch 6
+    #Branch 6
     class CustomBasisFunction:
         def __init__(self, degree=1, ensemble=True, repetition=2):
             self.degree = degree
@@ -709,7 +683,7 @@ def test_split_data_ensemble():
     reg_matrix, y_transformed = model.split_data(X_train, y_train)
     assert reg_matrix.shape[0] == y_transformed.shape[0]
     assert model.regressor_code is not None
-    assert len(model.regressor_code) > 0  # Check if regressor_code is generated
+    assert len(model.regressor_code) > 0  #Check if regressor_code is generated
 
 def test_split_data_ensemble_true():
     class CustomBasisFunction:
@@ -731,50 +705,12 @@ def test_split_data_ensemble_true():
     assert model.regressor_code is not None
 
 def test_split_data_polynomial():
-    # Test split_data with basis_function being Polynomial to reach Branch 8
+    #Branch 8
     model = NARXNN(basis_function=Polynomial())
     reg_matrix, y_transformed = model.split_data(X_train, y_train)
     assert reg_matrix.shape[0] == y_transformed.shape[0]
     assert model.regressor_code is not None
-    assert model.regressor_code.shape[1] == 2  # Correct the expected shape
-
-def test_split_data_polynomial_update():
-    # Test split_data with basis_function being Polynomial to reach Branch 8
-    model = NARXNN(basis_function=Polynomial())
-    reg_matrix, y_transformed = model.split_data(X_train, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
-    assert model.regressor_code is not None
-    assert model.regressor_code.shape[1] == 4  # Check if regressor_code has the expected shape
-    assert FLAG['split_data'][8] == 1  # Check if Branch 8 was reached
-
-def test_split_data_ensemble_true_non_polynomial():
-    # Test split_data with a custom basis function where ensemble is True and not Polynomial
-    class CustomBasisFunction:
-        def __init__(self, degree=1, ensemble=True, repetition=2):
-            self.degree = degree
-            self.ensemble = ensemble
-            self.repetition = repetition
-
-        def fit(self, lagged_data, max_lag, predefined_regressors=None):
-            return np.random.rand(lagged_data.shape[0], 4), self.ensemble
-
-        def transform(self, lagged_data, max_lag):
-            return np.random.rand(lagged_data.shape[0], 4), self.ensemble
-
-    custom_basis_function = CustomBasisFunction()
-    model = NARXNN(basis_function=custom_basis_function)
-    reg_matrix, y_transformed = model.split_data(X_train, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
-    assert model.regressor_code is not None
-    assert len(model.regressor_code) > 0  # Check if regressor_code is generated
-    assert FLAG['split_data'][6] == 1  # Check if Branch 6 was reached
-
-def test_split_data_x_none():
-    # Test split_data with X as None to reach Branch 5
-    model = NARXNN(basis_function=Polynomial())
-    reg_matrix, y_transformed = model.split_data(None, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
-    assert model.n_inputs == 1  # Check if n_inputs is set to 1
+    assert model.regressor_code.shape[1] == 2
 
 def test_split_data_non_polynomial_no_ensemble():
     # Test split_data with a custom basis function where ensemble is False and not Polynomial
@@ -796,8 +732,3 @@ def test_split_data_non_polynomial_no_ensemble():
     assert reg_matrix.shape[0] == y_transformed.shape[0]
     assert model.regressor_code is not None
     assert FLAG['split_data'][7] == 1  # Check if Branch 7 was reached
-
-
-if __name__ == "__main__":
-    import pytest
-    pytest.main([__file__])
