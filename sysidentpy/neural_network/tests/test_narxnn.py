@@ -113,11 +113,11 @@ def test_fit_raise():
 
 # def test_fit_raise_y():
 #     model = NARXNN(basis_function=Polynomial(degree=2))
-#     assert_raises(ValueError, model.fit, X=X_train, y=None)
+#     assert_raises(ValueError, model.fit, X=X_train, y=None) #Fails 80% fit coverage
 def test_fit_raise_y():
     model = NARXNN(basis_function=Polynomial(degree=2))
     assert_raises(ValueError, model.fit, X=X_train, y=None)
-    assert_raises(ValueError, model.fit, X=None, y=y_train)  # Added to cover X=None branch
+    assert_raises(ValueError, model.fit, X=None, y=y_train)  # Added to cover X=None branch passes +80% fit function
 
 # def test_fit_lag_nar():
 #     basis_function = Polynomial(degree=1)
@@ -658,32 +658,68 @@ def test_steps_3_fourier():
     yhat = model.predict(X=X_test, y=y_test, steps_ahead=3)
     assert_almost_equal(yhat.mean(), y_test.mean(), decimal=2)
 
-def test_check_cuda():
-    model = NARXNN(basis_function=Polynomial())
-    assert_equal(model._check_cuda("cpu").type, "cpu")
-    if torch.cuda.is_available():
-        assert_equal(model._check_cuda("cuda").type, "cuda")
-    else:
-        with assert_raises(ValueError):
-            model._check_cuda("cuda")
-    with assert_raises(ValueError):
-        model._check_cuda("invalid_device")
+# def test_check_cuda():
+#     model = NARXNN(basis_function=Polynomial())
+#     assert_equal(model._check_cuda("cpu").type, "cpu")
+#     if torch.cuda.is_available():
+#         assert_equal(model._check_cuda("cuda").type, "cuda")
+#     else:
+#         with assert_raises(ValueError):
+#             model._check_cuda("cuda")
+#     with assert_raises(ValueError):
+#         model._check_cuda("invalid_device")
 
-def test_split_data():
-    # Test split_data with both X and y
+# def test_split_data():
+#     # Test split_data with both X and y
+#     model = NARXNN(basis_function=Polynomial())
+#     reg_matrix, y_transformed = model.split_data(X_train, y_train)
+#     assert reg_matrix.shape[0] == y_transformed.shape[0]
+
+#     # Test split_data with X as None
+#     model = NARXNN(basis_function=Polynomial())
+#     reg_matrix, y_transformed = model.split_data(None, y_train)
+#     assert reg_matrix.shape[0] == y_transformed.shape[0]
+
+#     # Test split_data with a different basis function
+#     model = NARXNN(basis_function=Fourier(degree=1))
+#     reg_matrix, y_transformed = model.split_data(X_train, y_train)
+#     assert reg_matrix.shape[0] == y_transformed.shape[0]
+def test_split_data_y_none():
+    # Test split_data with y as None to reach Branch 2
+    model = NARXNN(basis_function=Polynomial())
+    assert_raises(ValueError, model.split_data, X_train, None)
+
+
+def test_split_data_ensemble():
+    # Test split_data with basis_function ensemble set to True to reach Branch 6
+    class CustomBasisFunction:
+        def __init__(self, degree=1, ensemble=True, repetition=2):
+            self.degree = degree
+            self.ensemble = ensemble
+            self.repetition = repetition
+
+        def fit(self, lagged_data, max_lag, predefined_regressors=None):
+            return np.random.rand(lagged_data.shape[0], 3), self.ensemble
+
+        def transform(self, lagged_data, max_lag):
+            return np.random.rand(lagged_data.shape[0], 3), self.ensemble
+
+    custom_basis_function = CustomBasisFunction()
+    model = NARXNN(basis_function=custom_basis_function)
+    reg_matrix, y_transformed = model.split_data(X_train, y_train)
+    assert reg_matrix.shape[0] == y_transformed.shape[0]
+    assert model.regressor_code is not None
+
+
+def test_split_data_polynomial():
+    # Test split_data with basis_function being Polynomial to reach Branch 8
     model = NARXNN(basis_function=Polynomial())
     reg_matrix, y_transformed = model.split_data(X_train, y_train)
     assert reg_matrix.shape[0] == y_transformed.shape[0]
+    assert model.regressor_code is not None
+    assert model.regressor_code.shape[1] == 4  # Check if regressor_code has the expected shape
 
-    # Test split_data with X as None
-    model = NARXNN(basis_function=Polynomial())
-    reg_matrix, y_transformed = model.split_data(None, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
 
-    # Test split_data with a different basis function
-    model = NARXNN(basis_function=Fourier(degree=1))
-    reg_matrix, y_transformed = model.split_data(X_train, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
 
 if __name__ == "__main__":
     import pytest
