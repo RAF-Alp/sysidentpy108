@@ -1,6 +1,6 @@
 # Report for Assignment 2
 
-Programming language used: <Python or Java>
+Programming language used: Python
 
 ## Workflow 1: Testing (`testing.yml`)
 
@@ -33,5 +33,5 @@ Programming language used: <Python or Java>
 | Member A | | | |
 | Member B | | | |
 | Member C | | | |
-| Member D | | | |
+| Mike Voeten | | | |
 
