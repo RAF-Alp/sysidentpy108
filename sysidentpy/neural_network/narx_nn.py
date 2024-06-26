@@ -881,41 +881,39 @@ class NARXNN(BaseMSS):
 
         yhat = yhat.ravel()
         return yhat.reshape(-1, 1)
-        yhat = yhat.ravel()
-        return yhat.reshape(-1, 1)
 
 
-if __name__ == "__main__":
-    # Example data
-    X_train = np.random.rand(100, 5)
-    y_train = np.random.rand(100, 1)
-    X_test = np.random.rand(20, 5)
-    y_test = np.random.rand(20, 1)
+# if __name__ == "__main__":
+#     # Example data
+#     X_train = np.random.rand(100, 5)
+#     y_train = np.random.rand(100, 1)
+#     X_test = np.random.rand(20, 5)
+#     y_test = np.random.rand(20, 1)
 
-    # Instantiate the NARXNN class
-    narx_nn = NARXNN(
-        ylag=2,
-        xlag=[[2], [2], [2], [2], [2]],  # Ensure xlag matches the number of features in X_train
-        basis_function=Polynomial(),
-        model_type="NARMAX",
-        loss_func='mse_loss',
-        optimizer='Adam',
-        epochs=200,
-        verbose=False,
-        optim_params={'betas': (0.9, 0.999), 'eps': 1e-05},
-        net=torch.nn.Linear(35, 1)  # Update the input dimension to match the output of build_matrix
-    )
-    try:
-        y_pred = narx_nn._one_step_ahead_prediction(X_train, y_train)
-        print("Prediction successful. Output shape:", y_pred.shape)
-    except Exception as e:
-        print("An error occurred during 1-step ahead prediction:", str(e))
+#     # Instantiate the NARXNN class
+#     narx_nn = NARXNN(
+#         ylag=2,
+#         xlag=[[2], [2], [2], [2], [2]],  # Ensure xlag matches the number of features in X_train
+#         basis_function=Polynomial(),
+#         model_type="NARMAX",
+#         loss_func='mse_loss',
+#         optimizer='Adam',
+#         epochs=200,
+#         verbose=False,
+#         optim_params={'betas': (0.9, 0.999), 'eps': 1e-05},
+#         net=torch.nn.Linear(35, 1)  # Update the input dimension to match the output of build_matrix
+#     )
+#     try:
+#         y_pred = narx_nn._one_step_ahead_prediction(X_train, y_train)
+#         print("Prediction successful. Output shape:", y_pred.shape)
+#     except Exception as e:
+#         print("An error occurred during 1-step ahead prediction:", str(e))
 
-    try:
-        train_dl = narx_nn.data_transform(X_train, y_train)
-        print("Data transformation successful. Dataloader type:", type(train_dl))
-    except Exception as e:
-        print("An error occurred during data transformation:", str(e))
+#     try:
+#         train_dl = narx_nn.data_transform(X_train, y_train)
+#         print("Data transformation successful. Dataloader type:", type(train_dl))
+#     except Exception as e:
+#         print("An error occurred during data transformation:", str(e))
 
 
-print_coverage()
+# print_coverage()

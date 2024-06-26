@@ -7,6 +7,31 @@ import numpy as np
 
 from .basis_function_base import BaseBasisFunction
 
+from typing import Dict
+FLAG: Dict[str, list] = {}
+
+#Alp coverage printer
+def print_coverage():
+    total_branches = 0
+    covered_branches = 0
+
+    for func, flags in FLAG.items():
+        print(f"Coverage for {func}:")
+        func_total_branches = len(flags)
+        func_covered_branches = sum(flags)
+
+        total_branches += func_total_branches
+        covered_branches += func_covered_branches
+
+        for i, flag in enumerate(flags):
+            print(f"  Branch {i + 1}: {'Reached' if flag else 'Not Reached'}")
+
+        func_coverage_percentage = (func_covered_branches / func_total_branches) * 100
+        print(f"  Function Coverage: {func_covered_branches}/{func_total_branches} ({func_coverage_percentage:.2f}%)")
+
+    overall_coverage_percentage = (covered_branches / total_branches) * 100
+    print(f"\nOverall Coverage: {covered_branches}/{total_branches} ({overall_coverage_percentage:.2f}%)")
+
 
 class Polynomial(BaseBasisFunction):
     r"""Build polynomial basis function.
@@ -174,11 +199,18 @@ class Fourier:
             The lagged matrix built in respect with each lag and column.
 
         """
+        if 'fit' not in FLAG:
+            FLAG['fit'] = [0] * 7
+
+        FLAG['fit'][0] = 1
+
         # remove intercept (because the data always have the intercept)
         if self.degree > 1:
+            FLAG['fit'][1] = 1
             data = Polynomial().fit(data, max_lag, predefined_regressors=None)
             data = data[:, 1:]
         else:
+            FLAG['fit'][2] = 1
             data = data[max_lag:, 1:]
 
         columns = list(range(data.shape[1]))
@@ -193,14 +225,21 @@ class Fourier:
 
         self.repetition = self.n * 2
         if self.ensemble:
+            FLAG['fit'][3] = 1
             psi = psi[:, 1:]
             psi = np.column_stack([data, psi])
         else:
+            FLAG['fit'][4] = 1
             psi = psi[:, 1:]
 
         if predefined_regressors is None:
+            FLAG['fit'][5] = 1
             return psi, self.ensemble
+        else:
+            #Added Invisible else
+            FLAG['fit'][6] = 1
 
+        print_coverage()
         return psi[:, predefined_regressors], self.ensemble
 
     def transform(
