@@ -8,6 +8,7 @@
 import logging
 import sys
 import warnings
+from typing import Dict
 
 import numpy as np
 import torch
@@ -15,9 +16,9 @@ import torch.nn.functional as F
 from torch import optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from ..narmax_base import BaseMSS
-from ..basis_function import Polynomial
-from ..utils._check_arrays import _check_positive_int, _num_features
+from sysidentpy.narmax_base import BaseMSS
+from sysidentpy.basis_function import Polynomial
+from sysidentpy.utils._check_arrays import _check_positive_int, _num_features
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -27,10 +28,89 @@ logging.basicConfig(
 )
 
 
-FLAG : Dict = {}
+FLAG : Dict[str, list] = {}
 'flag(id:branch) will be added once the branch is reached'
 
+def print_coverage():
+    total_branches = 0
+    covered_branches = 0
+    print('in print coverage')
 
+    for func, flags in FLAG.items():
+        print(f"Coverage for {func}:")
+        func_total_branches = len(flags)
+        func_covered_branches = sum(flags)
+
+        total_branches += func_total_branches
+        covered_branches += func_covered_branches
+
+        for i, flag in enumerate(flags):
+            print(f"  Branch {i + 1}: {'Reached' if flag else 'Not Reached'}")
+
+        func_coverage_percentage = (func_covered_branches / func_total_branches) * 100
+        print(f"  Function Coverage: {func_covered_branches}/{func_total_branches} ({func_coverage_percentage:.2f}%)")
+    if total_branches != 0:
+        overall_coverage_percentage = (covered_branches / total_branches) * 100
+        print(f"\nOverall Coverage: {covered_branches}/{total_branches} ({overall_coverage_percentage:.2f}%)")
+
+
+def generate_html_coverage_report():
+    total_branches = 0
+    covered_branches = 0
+    html_content = """
+    <html>
+        <head>
+            <title>Coverage Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .coverage-summary { margin-bottom: 20px; }
+                .coverage-summary p { font-weight: bold; }
+                .function-coverage { margin-bottom: 10px; }
+                .branch { margin-left: 20px; }
+                .reached { color: green; }
+                .not-reached { color: red; }
+            </style>
+        </head>
+        <body>
+            <h1>Coverage Report</h1>
+    """
+
+    for func, flags in FLAG.items():
+        func_total_branches = len(flags)
+        func_covered_branches = sum(flags)
+
+        total_branches += func_total_branches
+        covered_branches += func_covered_branches
+
+        html_content += f"<div class='function-coverage'><h2>Coverage for {func}:</h2>"
+        
+        for i, flag in enumerate(flags):
+            status = 'Reached' if flag else 'Not Reached'
+            status_class = 'reached' if flag else 'not-reached'
+            html_content += f"<div class='branch {status_class}'>Branch {i + 1}: {status}</div>"
+
+        func_coverage_percentage = (func_covered_branches / func_total_branches) * 100
+        html_content += f"<p>Function Coverage: {func_covered_branches}/{func_total_branches} ({func_coverage_percentage:.2f}%)</p>"
+        html_content += "</div>"
+
+    if total_branches != 0:
+        overall_coverage_percentage = (covered_branches / total_branches) * 100
+        html_content += f"""
+        <div class='coverage-summary'>
+            <p>Overall Coverage: {covered_branches}/{total_branches} ({overall_coverage_percentage:.2f}%)</p>
+        </div>
+        """
+    
+    html_content += """
+        </body>
+    </html>
+    """
+
+    with open('coverage_report.html', 'w') as file:
+        file.write(html_content)
+
+
+        
 class NARXNN(BaseMSS):
     """NARX Neural Network model build on top of Pytorch.
 
@@ -490,7 +570,6 @@ class NARXNN(BaseMSS):
                 return self._model_prediction(X, y, forecast_horizon=forecast_horizon)
             if steps_ahead == 1:
                 return self._one_step_ahead_prediction(X, y)
-
             _check_positive_int(steps_ahead, "steps_ahead")
             return self._n_step_ahead_prediction(X, y, steps_ahead=steps_ahead)
 
@@ -602,36 +681,52 @@ class NARXNN(BaseMSS):
                The predicted values of the model.
 
         """
+        if 'model_prediction' not in FLAG:
+            FLAG['model_prediction'] = [0] * 4
         if self.model_type in ["NARMAX", "NAR"]:
+            FLAG['model_prediction'][0]= 1
             return self._narmax_predict(X, y_initial, forecast_horizon)
-
+        else:
+            # invisible else:
+            FLAG['model_prediction'][1]= 1
+        
         if self.model_type == "NFIR":
+            FLAG['model_prediction'][2]= 1
             return self._nfir_predict(X, y_initial)
-
+        else:
+            # invisible else:
+            FLAG['model_prediction'][3]= 1
+        
         raise ValueError(
             f"model_type must be NARMAX, NAR or NFIR. Got {self.model_type}"
         )
 
     def _narmax_predict(self, X, y_initial, forecast_horizon):
-        reached_branch = [1]
+        if 'narmax_predict' not in FLAG:
+            FLAG['narmax_predict'] = [0] * 6
         if len(y_initial) < self.max_lag:
+            FLAG['narmax_predict'][0] = 1
             raise ValueError(
                 "Insufficient initial condition elements! Expected at least"
                 f" {self.max_lag} elements."
             )
-            reached_branch.append[2]
-
-        if X is not None:
-            forecast_horizon = X.shape[0]
-            reached_branch.append[3]
         else:
+            # invisible else:
+            FLAG['narmax_predict'][1] = 1
+        
+        if X is not None:
+            FLAG['narmax_predict'][2] = 1
+            forecast_horizon = X.shape[0]
+        else:
+            FLAG['narmax_predict'][3] = 1
             forecast_horizon = forecast_horizon + self.max_lag
-            reached_branch.append[4]
 
         if self.model_type == "NAR":
+            FLAG['narmax_predict'][4] = 1
             self.n_inputs = 0
-            reached_branch.append[5]
-
+        else:
+            # invisible else:
+            FLAG['narmax_predict'][5] = 1
         y_output = np.zeros(forecast_horizon, dtype=float)
         y_output.fill(np.nan)
         y_output[: self.max_lag] = y_initial[: self.max_lag, 0]
@@ -658,11 +753,9 @@ class NARXNN(BaseMSS):
             y_output = y_output.astype(np.float32)
             x_valid, _ = map(torch.tensor, (regressor_value, y_output))
             y_output[i] = self.net(x_valid.to(self.device))[0].detach().cpu().numpy()
-        FLAG['NP'] = reached_branch
         return y_output.reshape(-1, 1)
 
     def _nfir_predict(self, X, y_initial):
-        reached_branch = [1]
         y_output = np.zeros(X.shape[0], dtype=float)
         y_output.fill(np.nan)
         y_output[: self.max_lag] = y_initial[: self.max_lag, 0]
@@ -688,7 +781,6 @@ class NARXNN(BaseMSS):
             y_output = y_output.astype(np.float32)
             x_valid, _ = map(torch.tensor, (regressor_value, y_output))
             y_output[i] = self.net(x_valid.to(self.device))[0].detach().cpu().numpy()
-        FLAG['NFP']=reached_branch
         return y_output.reshape(-1, 1)
 
     def _basis_function_predict(self, X, y_initial, forecast_horizon=None):
@@ -765,7 +857,6 @@ class NARXNN(BaseMSS):
             forecast_horizon = X.shape[0]
         else:
             forecast_horizon = forecast_horizon + self.max_lag
-
         yhat = np.zeros(forecast_horizon, dtype=float)
         yhat.fill(np.nan)
         yhat[: self.max_lag] = y[: self.max_lag, 0]
@@ -776,7 +867,6 @@ class NARXNN(BaseMSS):
             k = int(i - self.max_lag)
             if i + steps_ahead > len(y):
                 steps_ahead = len(y) - i  # predicts the remaining values
-
             if self.model_type == "NARMAX":
                 yhat[i : i + steps_ahead] = self._basis_function_predict(
                     X[k : i + steps_ahead], y[k : i + steps_ahead]
@@ -798,21 +888,18 @@ class NARXNN(BaseMSS):
                 )
 
             i += steps_ahead
-
         return yhat.reshape(-1, 1)
 
     def _basis_function_n_steps_horizon(self, X, y, steps_ahead, forecast_horizon):
         yhat = np.zeros(forecast_horizon, dtype=float)
         yhat.fill(np.nan)
         yhat[: self.max_lag] = y[: self.max_lag, 0]
-
         i = self.max_lag
 
         while i < len(y):
             k = int(i - self.max_lag)
             if i + steps_ahead > len(y):
                 steps_ahead = len(y) - i  # predicts the remaining values
-
             if self.model_type == "NARMAX":
                 yhat[i : i + steps_ahead] = self._basis_function_predict(
                     X[k : i + steps_ahead], y[k : i + steps_ahead]
@@ -832,8 +919,43 @@ class NARXNN(BaseMSS):
                 raise ValueError(
                     f"model_type must be NARMAX, NAR or NFIR. Got {self.model_type}"
                 )
-
+                
+                
             i += steps_ahead
-
         yhat = yhat.ravel()
         return yhat.reshape(-1, 1)
+    
+if __name__ == "__main__":
+    # Example data
+    X_train = np.random.rand(100, 5)
+    y_train = np.random.rand(100, 1)
+    X_test = np.random.rand(20, 5)
+    y_test = np.random.rand(20, 1)
+
+    # Instantiate the NARXNN class
+    narx_nn = NARXNN(
+        ylag=2,
+        xlag=[[2], [2], [2], [2], [2]],  # Ensure xlag matches the number of features in X_train
+        basis_function=Polynomial(),
+        model_type="NARMAX",
+        loss_func='mse_loss',
+        optimizer='Adam',
+        epochs=200,
+        verbose=False,
+        optim_params={'betas': (0.9, 0.999), 'eps': 1e-05},
+        net=torch.nn.Linear(35, 1)  # Update the input dimension to match the output of build_matrix
+    )
+
+    # Run main functionality
+    try:
+        reg_matrix, y = narx_nn._narmax_predict(X_train, y_train,True)
+        print(f"split_data returned reg_matrix shape: {reg_matrix.shape}, y shape: {y.shape}")
+    except ValueError as e:
+        print(f"split_data raised ValueError: {e}")
+
+    try:
+        narx_nn.fit(X=X_train, y=y_train, X_test=X_test, y_test=y_test)
+    except ValueError as e:
+        print(f"fit raised ValueError: {e}")
+
+    
