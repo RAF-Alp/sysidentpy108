@@ -1,4 +1,4 @@
-# Report for Assignment 2
+# Report for Assignment 2, Group 108
 
 Programming language used: Python
 
@@ -30,8 +30,8 @@ Programming language used: Python
 
 | Member | Created workflows | Reviewed workflows | Merged pull requests' number |
 | --- | --- | --- | --- |
-| Member A | | | |
-| Member B | | | |
-| Member C | | | |
+| Alpdeniz Sarici | | | |
+| Song Hyunwoo | | | |
+| Luc Lacombe | | | |
 | Mike Voeten | | | |
 
