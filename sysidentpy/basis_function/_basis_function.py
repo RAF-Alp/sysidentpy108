@@ -169,36 +169,15 @@ class Fourier:
                 np.sin(2 * np.pi * data * n / self.p),
             ]
         )
-        return base
+        return base    
 
+    
     def fit(
         self,
         data: np.ndarray,
         max_lag: int = 1,
         predefined_regressors: Optional[np.ndarray] = None,
     ):
-        """Build the Polynomial information matrix.
-
-        Each columns of the information matrix represents a candidate
-        regressor. The set of candidate regressors are based on xlag,
-        ylag, and degree defined by the user.
-
-        Parameters
-        ----------
-        data : ndarray of floats
-            The lagged matrix built with respect to each lag and column.
-        max_lag : int
-            Target data used on training phase.
-        predefined_regressors : ndarray of int
-            The index of the selected regressors by the Model Structure
-            Selection algorithm.
-
-        Returns
-        -------
-        psi = ndarray of floats
-            The lagged matrix built in respect with each lag and column.
-
-        """
         if 'fit' not in FLAG:
             FLAG['fit'] = [0] * 7
 
