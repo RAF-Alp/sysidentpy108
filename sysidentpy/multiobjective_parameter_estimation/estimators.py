@@ -7,6 +7,31 @@ import numpy as np
 from sysidentpy.basis_function import Polynomial
 from sysidentpy.narmax_base import InformationMatrix, RegressorDictionary
 
+from typing import Dict
+FLAG: Dict[str, list] = {}
+
+#Alp coverage printer
+def print_coverage():
+    total_branches = 0
+    covered_branches = 0
+
+    for func, flags in FLAG.items():
+        print(f"Coverage for {func}:")
+        func_total_branches = len(flags)
+        func_covered_branches = sum(flags)
+
+        total_branches += func_total_branches
+        covered_branches += func_covered_branches
+
+        for i, flag in enumerate(flags):
+            print(f"  Branch {i + 1}: {'Reached' if flag else 'Not Reached'}")
+
+        func_coverage_percentage = (func_covered_branches / func_total_branches) * 100
+        print(f"  Function Coverage: {func_covered_branches}/{func_total_branches} ({func_coverage_percentage:.2f}%)")
+
+    overall_coverage_percentage = (covered_branches / total_branches) * 100
+    print(f"\nOverall Coverage: {covered_branches}/{total_branches} ({overall_coverage_percentage:.2f}%)")
+
 
 class AILS:
     """Affine Information Least Squares (AILS) for NARMAX Parameter Estimation.
@@ -301,12 +326,27 @@ class AILS:
         static gain data (if enabled), and static function data (if enabled).
 
         """
+        if 'build_system_data' not in FLAG:
+            FLAG['build_system_data'] = [0] * 5
+
+        FLAG['build_system_data'][0] = 1
+
         if not self.static_gain:
+            FLAG['build_system_data'][1] = 1
             return [y] + [static_function]
+        else:
+            #Added invisible else
+            FLAG['build_system_data'][2] = 1
+
 
         if not self.static_function:
+            FLAG['build_system_data'][3] = 1
             return [y] + [static_gain]
+        else:
+            #Added invisible else
+            FLAG['build_system_data'][4] = 1
 
+        print_coverage()
         return [y] + [static_gain] + [static_function]
 
     def build_affine_data(
