@@ -817,7 +817,6 @@ class NARXNN(BaseMSS):
         i = self.max_lag
 
         while i < len(y):
-            print("HELLO")
             k = int(i - self.max_lag)
             if i + steps_ahead > len(y):
                 steps_ahead = len(y) - i  # predicts the remaining values
