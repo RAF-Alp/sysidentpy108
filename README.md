@@ -6,6 +6,8 @@ Programming language used: Python
 
 <Inform which tool is used to compile and test.>
 
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FRAF-Alp%2Fsysidentpy108%2Fblob%2Fmike%2Fsysidentpy%2Fneural_network%2Fnarx_nn.py&style=default&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+
 <Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
 
 ## Workflow 2: Static analysis (`static_analysis_1.yml`)
