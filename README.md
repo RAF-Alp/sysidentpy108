@@ -258,22 +258,22 @@ Programming language used: Python
 
 ## Workflow 3: Static analysis (`static_analysis_2.yml`)
 
-<Inform which tool is used to perform code quality check with static analysis.>
-
-<Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
+Tool: pylint
+Link: https://github.com/RAF-Alp/G108A2/actions/runs/9697490397 
 
 ## Workflow 4: Release (`release.yml`)
 
-<Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
+https://github.com/RAF-Alp/G108A2/actions/runs/9698887614/job/26766524998 
 
 ## Statement of individual contributions
 
 <Write what each group member did. Use the following table for that and add additional text under it if you see fit.>
 
-| Member | Created workflows | Reviewed workflows | Merged pull requests' number |
+| Member | Created workflows | Reviewed workflows | Merged pull requests' number | Issues Closed |
 | --- | --- | --- | --- |
-| Alpdeniz Sarici | | | |
-| Song Hyunwoo | | | |
-| Luc Lacombe | | | |
-| Mike Voeten | | | |
+| Mike | 1 | 1 | 0 | 1 |
+| Song | 8 | 2 | 1 | 1 |
+| Alpdeniz Sarici | 1 | 4 | 4 | 1 |
+| Luc Lacombe | 1 | 4 | 0 | 1 |
+
 
