@@ -60,7 +60,6 @@ https://github.com/RAF-Alp/sysidentpy108/commit/eb36a01962883f2b8eadbf4cbd0b92f5
 1. Function1: _model_prediction with 4 branches
 A. Own Coverage measurement in a forked Repository
 
-**Own Tool:**
 https://github.com/wilsonrljr/sysidentpy/commit/f5f9fe35616f776d13df541e4d8cb59aba6627f1#diff-a65f03450fbba5edc554aa198ce7b72aa6c492226ff86455d1e39547761fa9e3
 B. output
 
@@ -71,8 +70,8 @@ B. output
 2. Function2: narmax_predict with 6 branches
 A. Own Coverage measurement in a forked Repository
 
-**Own Tool:**
 https://github.com/wilsonrljr/sysidentpy/commit/f5f9fe35616f776d13df541e4d8cb59aba6627f1#diff-a65f03450fbba5edc554aa198ce7b72aa6c492226ff86455d1e39547761fa9e3
+
 B. output
 It is shown above.
 
@@ -80,16 +79,13 @@ It is shown above.
 
 split_data
 
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
-
-**Own Tool:**
 https://github.com/RAF-Alp/sysidentpy108/commit/5f8533aca723990991b6c009238ce7f1f1f3400e 
 Here is the print coverage function and the dictionary of flags used to save the branches being covered.
 
 ![Screenshot from 2024-06-27 18-36-30](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/50540d3c-559b-44de-88fe-dc07c5e3f375)
 
 fit
-<Provide the same kind of information provided for Function 1>
+
 https://github.com/RAF-Alp/sysidentpy108/commit/5f8533aca723990991b6c009238ce7f1f1f3400e 
 Here is the print coverage function and the dictionary of flags used to save the branches being covered.
 
