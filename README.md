@@ -193,39 +193,51 @@ test_fit_degree_and_ensemble_branches()
 
 https://github.com/wilsonrljr/sysidentpy/commit/73c737bbbaa00bc9b27b0c8d1317fe7e1ddda114 
 
+![Screenshot from 2024-06-27 19-02-13](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/3027baa7-968f-47f7-9b98-7e6479a864c4)
 
+![Screenshot from 2024-06-27 19-02-32](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/fcb117dd-2f75-4998-bcfd-124a3b6e3f9a)
 
-## Coverage improvement
+The coverage was improved from 5/7 branches reached (71.43%) to 7/7 branches (100%).
+The first branch un-covered branch could only be reached if the fourier object of the fit method had a degree greater than one. The second un-covered branch could only be reached if the fourier object's boolean attribute ‘ensemble’ was True.
+To reach these two branches and improve the coverage to 7/7 the “test_fit_degree_and_ensemble_branches” test was created which instantiates a fourier object with degree = 2 and ensemble = True and then the fit function is called with the object which enters both branches with the same test.
+Finally three asserts are made to ensure the degree and ensemble were correctly set and that the final output of the fit method isnt None ensuring the function worked correctly with the given parameters.
 
-### Individual tests
+test_build_system_data_static_gain_False_branch()
+test_build_system_data_static_function_False_branch()
 
-<The following is supposed to be repeated for each group member>
+https://github.com/wilsonrljr/sysidentpy/commit/c2109493d7d025611f814f6f2fb0fc5771f07c7b 
 
-<Group member name>
+![Screenshot from 2024-06-27 19-02-49](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/ab84d09b-69c9-4b97-9cb2-a0b372f9be76)
 
-<Test 1>
+![Screenshot from 2024-06-27 19-03-04](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/c726bf99-b750-438d-865d-edbe37807003)
 
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
-
-<Provide a screenshot of the old coverage results (the same as you already showed above)>
-
-<Provide a screenshot of the new coverage results>
-
-<State the coverage improvement with a number and elaborate on why the coverage is improved>
-
-<Test 2>
-
-<Provide the same kind of information provided for Test 1>
+The coverage was improved from 3/5 branches reached (60%) to 5/5 branches (100%).
+The first branch un-covered branch could only be reached if the AILS object’s ‘static_gain’ boolean attribute was False. The second un-covered branch could only be reached if the AILS object's boolean attribute ‘static_function’ was False.
+To reach these two branches and improve the coverage to 7/7 the two test functions were created. The first one (test_build_system_data_static_gain_False_branch()) instantiates an AILS object with ‘static_gain’ set to False and then the build_system_data function is called with the object which enters the first branch. When the branch is entered it returns [y] + [static_function], therefore, to ensure the test is correct we assert that [y] + [static_function] was returned.
+The second function one (test_build_system_data_static_function_False_branch()) instantiates an AILS object with ‘static_function’ set to False and then the build_system_data function is called with the object which enters the second branch. When the branch is entered it returns [y] + [static_gain], therefore, to ensure the test is correct we assert that [y] + [static_gain] was returned.
+Although both these test functions are similar, since both the un-covered branches both lead to return statements two separate functions had to be made.
 
 ### Overall
 
-<Provide a screenshot of the old coverage results by running an existing tool (the same as you already showed above)>
+![Screenshot from 2024-06-27 19-03-21](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/ee41da83-7a05-4c06-b0d5-65467e6ae4ef)
 
-<Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group>
+![Screenshot from 2024-06-27 19-03-40](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/8e419a20-7fb5-4ac8-9b41-f66aa2efd6bd)
 
 ## Statement of individual contributions
 
-<Write what each group member did>
+Mike:
+I found several open-source Github repositories, counted the lines in them and put them together in a table for discussion. I created unit tests for two functions and a simple coverage tool. 
+
+
+Song:
+I improved the print coverage function with HTML code to increase the readability of the test result. My contribution is that I set up the discussion on the meeting plan and the decision on the project schedules. Also, working on two functions to improve the coverage and sharing my approach with colleagues, which might be applicable to other methods. 
+
+
+Alpdeniz Sarici Hernandez:
+I made the print coverage function to incorporate the dictionary of branches. With this, we could all output the branches that needed testing in our chosen functions. Once we knew which branches needed to be covered we created tests using arranges, acts, and asserts. Once I reached 80% I created my pull request and merged it with our code. Additionally, I was responsible for helping organize meetings and also clear any doubts we had.
+
+Luc Lacombe:
+Besides working on my two functions and improving their coverage, my main contributions to the group were communication and help. I organized many of the online and in person meetings we had and I helped my groupmates with bugs and errors they were running into. For example I helped Alpdeniz fix an issue where many of his tests were failing due to the newest version of numpy not supporting int32 float type variables.
 
 
 # Report for Assignment 2, Group 108
