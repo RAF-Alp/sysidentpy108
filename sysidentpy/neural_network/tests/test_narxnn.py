@@ -620,7 +620,7 @@ self made test functions:
 '''
 
 def test_additional_test_1_with_NFIR():
-    # _narmax_predict, Branch 2
+    # model_prediction, Branch 2
     basis_function = Polynomial(degree=1)
     regressors = regressor_code(
         X=X_train,
@@ -767,7 +767,7 @@ def test_additional_test_3_with_Insufficient_initial_conditions():
     model.fit(X=X_train, y=y_train)
     model.max_lag=len(y_test) + 1
         
-    assert_raises(ValueError, model.predict, X=X_test, y=y_test, steps_ahead=3)
+    assert_raises(ValueError, model.predict, X=X_test, y=y_test)
     
 def test_additional_test_4_with_X_none():
     # _narmax_predict, Branch 3
