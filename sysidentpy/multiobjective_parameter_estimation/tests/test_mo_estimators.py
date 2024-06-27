@@ -5,6 +5,9 @@ from sysidentpy.multiobjective_parameter_estimation.estimators import AILS
 from sysidentpy.utils.narmax_tools import set_weights
 from numpy.testing import assert_array_equal, assert_almost_equal, assert_allclose
 
+#Added assert_equal
+from numpy.testing import assert_equal
+
 
 df_train = np.genfromtxt(
     "examples/datasets/buck_id.csv", delimiter=",", skip_header=True
@@ -47,6 +50,37 @@ final_model = np.array([
     [1002, 1001],
     [1002, 1002],
 ])
+
+def test_build_system_data_static_gain_False_branch():
+    y = np.array([1,2,3])
+    static_gain = np.array([1,2,3])
+    static_function = np.array([1,2,3])
+    
+    # Create AILS object with static_gain=False
+    estimator = AILS(static_gain=False, static_function=True)
+    
+    # Call build_system_data
+    result = estimator.build_system_data(y, static_gain, static_function)
+    
+    expected_result = [y] + [static_function]
+    
+    assert_equal(result, expected_result)
+
+
+def test_build_system_data_static_function_False_branch():
+    y = np.array([1, 2, 3])
+    static_gain = np.array([1,2,3])
+    static_function = np.array([1,2,3])
+    
+    # Create AILS object with static_function=False
+    estimator = AILS(static_gain=True, static_function=False)
+    
+    # Call build_system_data
+    result = estimator.build_system_data(y, static_gain, static_function)
+    
+    expected_result = [y] + [static_gain]
+    
+    assert_equal(result, expected_result)
 
 
 def test_default_values():
