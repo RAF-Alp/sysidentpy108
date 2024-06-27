@@ -25,13 +25,10 @@ class TestBasisFunctionMethods(unittest.TestCase):
     def setUp(self):
         self.max_lag = 3
         self.model = NARXNN()
-        
-    def update_model(self):
-        self.model = NARXNN()
+    
 
     @patch.object(NARXNN, '_basis_function_predict', return_value=np.random.rand(10))
     def test_basis_function_n_step_prediction(self, mock_predict):
-        self.update_model()
         X = np.random.rand(10, 1)
         y = np.random.rand(10, 1)
         steps_ahead = 2
@@ -42,7 +39,6 @@ class TestBasisFunctionMethods(unittest.TestCase):
 
     @patch.object(NARXNN, '_basis_function_predict', return_value=np.random.rand(10))
     def test_basis_function_n_steps_horizon(self, mock_predict):
-        self.update_model()
         X = np.random.rand(10, 1)
         y = np.random.rand(10, 1)
         steps_ahead = 2
@@ -52,7 +48,6 @@ class TestBasisFunctionMethods(unittest.TestCase):
         self.assertTrue(mock_predict.called)
 
     def test_value_error_insufficient_initial_conditions(self):
-        self.update_model()
         X = np.random.rand(10, 1)
         y = np.random.rand(2, 1)
         steps_ahead = 2
@@ -61,7 +56,6 @@ class TestBasisFunctionMethods(unittest.TestCase):
             self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
             
     def test_value_error_insufficient_initial_conditions2(self):
-        self.update_model()
         X = None
         y = np.random.rand(2, 1)
         steps_ahead = 2
@@ -70,7 +64,6 @@ class TestBasisFunctionMethods(unittest.TestCase):
             self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
             
     def test_value_error_insufficient_initial_conditions3(self):
-        self.update_model()
         X = np.random.rand(10, 1)
         y = [0,0]
         steps_ahead = 2
@@ -83,7 +76,6 @@ class TestBasisFunctionMethods(unittest.TestCase):
             
             
     def test_value_error_invalid_model_type(self):
-        self.update_model()
         X = np.random.rand(10, 1)
         y = np.random.rand(10, 1)
         steps_ahead = 2
@@ -95,8 +87,8 @@ class TestBasisFunctionMethods(unittest.TestCase):
             self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
 
     def test_nar_model_type(self):
-        self.update_model()
-        self.model.model_type = "NAR"
+        self.model = NARXNN(model_type="NAR")
+        #self.model.model_type = "NAR"
         X = np.random.rand(10, 1)
         y = np.random.rand(10, 1)
         steps_ahead = 2
@@ -109,7 +101,6 @@ class TestBasisFunctionMethods(unittest.TestCase):
         
 
     def test_nfir_model_type(self):
-        self.update_model()
         self.model.model_type = "NFIR"
         X = np.random.rand(10, 1)
         y = np.random.rand(10, 1)
@@ -117,7 +108,7 @@ class TestBasisFunctionMethods(unittest.TestCase):
         forecast_horizon = 10
         result = self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
         self.assertEqual(result.shape, (forecast_horizon, 1))
-        self.update_model()
+        self.model = NARXNN(model_type="NFIR")
         self.model.model_type = "NFIR"
         X = np.random.rand(10, 1)
         y = np.random.rand(10, 1)
