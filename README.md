@@ -94,6 +94,7 @@ https://github.com/wilsonrljr/sysidentpy/commit/00916ed4e4331723b1efd6bec51eae69
 build_system_data
 
 https://github.com/wilsonrljr/sysidentpy/commit/11904f42f6f44d271ebed752e40762a48df3eb34 
+
 ![Screenshot from 2024-06-27 18-39-50](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/e992c32e-7140-433b-9dc0-5abfe344dc53)
 
 ## Coverage improvement
@@ -107,6 +108,7 @@ https://github.com/wilsonrljr/sysidentpy/commit/11904f42f6f44d271ebed752e40762a4
 <Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
 
 <Provide a screenshot of the old coverage results (the same as you already showed above)>
+
 ![Screenshot from 2024-06-27 18-42-08](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/ccbd74bb-98c9-4770-8bec-6e7f6181dfb8)
 
 The coverage has improved because every model type and empty input is tested.
@@ -140,21 +142,25 @@ In the original test tool, only 3 branches had been reached, so two more tests a
 'test_additional_test_3_with_Insufficient_initial_conditions()',
 'test_additional_test_4_with_X_none()'
 
-As a result, it can fully cover all the branches.
+**As a result, it can fully cover all the branches.**
 
 ![Screenshot from 2024-06-27 18-52-10](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/fd1dd177-3d42-4bbe-bf81-920d2a9684f8)
 
 
-Before coverage by lines: 
+**Before coverage by lines:**
+
 ![Screenshot from 2024-06-27 18-53-12](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/8bed6b47-1a7c-47ac-b20c-a0c57a647c02)
 
-After coverage by lines:
+**After coverage by lines:**
+
 ![Screenshot from 2024-06-27 18-53-30](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/b5968052-417a-4180-9766-9be603e1720d)
 
-Branch coverage before:
+**Branch coverage before:**
+
 ![Screenshot from 2024-06-27 18-54-45](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/35ab5c26-9ba1-423c-adad-1a68a5f2550b)
 
-Branch coverage after:
+**Branch coverage after:**
+
 ![Screenshot from 2024-06-27 18-55-13](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/01e77d25-be6a-46cd-9ba6-dfcda2d4c7b2)
 
 
@@ -182,6 +188,7 @@ test_split_data_non_polynomial_no_ensemble()
 https://github.com/RAF-Alp/sysidentpy108/commit/301319a0243b426de88748ac8fe475b41ad33588 
 
 ![Screenshot from 2024-06-27 18-58-19](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/c5d6a8cd-58d2-45c9-9a2f-5eeb7b9d7076)
+
 ![Screenshot from 2024-06-27 18-58-44](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/6dad21a5-b0ec-4fb5-a75a-8fb0e19ee6d0)
 
 Improved the coverage by 2 because it tests split_data with a custom basis function where the ensemble is False and not Polynomial.
