@@ -220,11 +220,12 @@ https://github.com/wilsonrljr/sysidentpy/commit/73c737bbbaa00bc9b27b0c8d1317fe7e
 ![Screenshot from 2024-06-27 19-02-32](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/fcb117dd-2f75-4998-bcfd-124a3b6e3f9a)
 
 The coverage was improved from 5/7 branches reached (71.43%) to 7/7 branches (100%).
-The first branch un-covered branch could only be reached if the fourier object of the fit method had a degree greater than one. The second un-covered branch could only be reached if the fourier object's boolean attribute ‘ensemble’ was True.
+The first un-covered branch could only be reached if the fourier object of the fit method had a degree greater than one. The second un-covered branch could only be reached if the fourier object's boolean attribute ‘ensemble’ was True.
 To reach these two branches and improve the coverage to 7/7 the “test_fit_degree_and_ensemble_branches” test was created which instantiates a fourier object with degree = 2 and ensemble = True and then the fit function is called with the object which enters both branches with the same test.
 Finally three asserts are made to ensure the degree and ensemble were correctly set and that the final output of the fit method isnt None ensuring the function worked correctly with the given parameters.
 
 test_build_system_data_static_gain_False_branch()
+
 test_build_system_data_static_function_False_branch()
 
 https://github.com/wilsonrljr/sysidentpy/commit/c2109493d7d025611f814f6f2fb0fc5771f07c7b 
@@ -234,9 +235,9 @@ https://github.com/wilsonrljr/sysidentpy/commit/c2109493d7d025611f814f6f2fb0fc57
 ![Screenshot from 2024-06-27 19-03-04](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/c726bf99-b750-438d-865d-edbe37807003)
 
 The coverage was improved from 3/5 branches reached (60%) to 5/5 branches (100%).
-The first branch un-covered branch could only be reached if the AILS object’s ‘static_gain’ boolean attribute was False. The second un-covered branch could only be reached if the AILS object's boolean attribute ‘static_function’ was False.
+The first un-covered branch could only be reached if the AILS object’s ‘static_gain’ boolean attribute was False. The second un-covered branch could only be reached if the AILS object's boolean attribute ‘static_function’ was False.
 To reach these two branches and improve the coverage to 7/7 the two test functions were created. The first one (test_build_system_data_static_gain_False_branch()) instantiates an AILS object with ‘static_gain’ set to False and then the build_system_data function is called with the object which enters the first branch. When the branch is entered it returns [y] + [static_function], therefore, to ensure the test is correct we assert that [y] + [static_function] was returned.
-The second function one (test_build_system_data_static_function_False_branch()) instantiates an AILS object with ‘static_function’ set to False and then the build_system_data function is called with the object which enters the second branch. When the branch is entered it returns [y] + [static_gain], therefore, to ensure the test is correct we assert that [y] + [static_gain] was returned.
+The second function (test_build_system_data_static_function_False_branch()) instantiates an AILS object with ‘static_function’ set to False and then the build_system_data function is called with the object which enters the second branch. When the branch is entered it returns [y] + [static_gain], therefore, to ensure the test is correct we assert that [y] + [static_gain] was returned.
 Although both these test functions are similar, since both the un-covered branches both lead to return statements two separate functions had to be made.
 
 ### Overall
