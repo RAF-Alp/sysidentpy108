@@ -1,37 +1,159 @@
-# Report for Assignment 2, Group 108
+<?xml version="1.0" encoding="UTF-8"?>
+<indexing>
+ <object alt="" name="image10.png" object_type="graphic"/>
+ <object alt="" name="image1.png" object_type="graphic"/>
+ <object alt="" name="image11.png" object_type="graphic"/>
+ <object alt="" name="image12.png" object_type="graphic"/>
+ <object alt="" name="image4.png" object_type="graphic"/>
+ <object alt="" name="Image2" object_type="graphic"/>
+ <object alt="" name="image3.png" object_type="graphic"/>
+ <object alt="" name="image16.png" object_type="graphic"/>
+ <object alt="" name="image18.png" object_type="graphic"/>
+ <object alt="" name="image13.png" object_type="graphic"/>
+ <object alt="" name="image23.png" object_type="graphic"/>
+ <object alt="" name="image17.png" object_type="graphic"/>
+ <object alt="" name="Image3" object_type="graphic"/>
+ <object alt="" name="image15.png" object_type="graphic"/>
+ <object alt="" name="image7.png" object_type="graphic"/>
+ <object alt="" name="Image4" object_type="graphic"/>
+ <object alt="" name="image14.png" object_type="graphic"/>
+ <object alt="" name="Image5" object_type="graphic"/>
+ <object alt="" name="image2.png" object_type="graphic"/>
+ <object alt="" name="Image6" object_type="graphic"/>
+ <object alt="" name="image6.png" object_type="graphic"/>
+ <object alt="" name="Image7" object_type="graphic"/>
+ <object alt="" name="image5.png" object_type="graphic"/>
+ <object alt="" name="Image8" object_type="graphic"/>
+ <object alt="" name="image9.png" object_type="graphic"/>
+ <object alt="" name="image8.png" object_type="graphic"/>
+ <paragraph index="87" node_type="writer"># Report for Assignment 1</paragraph>
+ <paragraph index="89" node_type="writer">## Project chosen</paragraph>
+ <paragraph index="91" node_type="writer">Name: sysidentpy</paragraph>
+ <paragraph index="93" node_type="writer">URL: https://github.com/wilsonrljr/sysidentpy </paragraph>
+ <paragraph index="95" node_type="writer">Number of lines of code and the tool used to count it: 16039</paragraph>
+ <paragraph index="97" node_type="writer">Programming language: Python</paragraph>
+ <paragraph index="99" node_type="writer">## Coverage measurement</paragraph>
+ <paragraph index="101" node_type="writer">### Existing tool</paragraph>
+ <paragraph index="103" node_type="writer">Coverage Tool: coverage.py
 
-Programming language used: Python
-
-## Workflow 1: Testing (`testing.yml`)
-
-<Inform which tool is used to compile and test.>
-
-<Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
-
-## Workflow 2: Static analysis (`static_analysis_1.yml`)
-
-<Inform which tool is used to perform code quality check with static analysis.>
-
-<Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
-
-## Workflow 3: Static analysis (`static_analysis_2.yml`)
-
-<Inform which tool is used to perform code quality check with static analysis.>
-
-<Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
-
-## Workflow 4: Release (`release.yml`)
-
-<Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
-
-## Statement of individual contributions
-
-<Write what each group member did. Use the following table for that and add additional text under it if you see fit.>
-
-| Member | Created workflows | Reviewed workflows | Merged pull requests' number |
-| --- | --- | --- | --- |
-| Alpdeniz Sarici | | | |
-| Song Hyunwoo | | | |
-| Luc Lacombe | | | |
-| Mike Voeten | | | |
-
+How it was executed: 	
+ python -m coverage run -m sysidentpy.neural_network.tests.test_narxnn
+ python -m coverage report -m</paragraph>
+ <paragraph index="105" node_type="writer">Coverage Results (6%):</paragraph>
+ <paragraph index="108" node_type="writer">### Your own coverage tool</paragraph>
+ <paragraph index="110" node_type="writer">Set up a FLAG Dictionary, print_coverage() made to print FLAGs after tests are ran:</paragraph>
+ <paragraph index="112" node_type="writer">In Function Example (Set up and in first two branches):</paragraph>
+ <paragraph index="117" node_type="writer">Mike</paragraph>
+ <paragraph index="118" node_type="writer">Functions:</paragraph>
+ <paragraph index="119" node_type="writer">_basis_function_n_steps_horizon: BFNSP: 8 branches</paragraph>
+ <paragraph index="120" node_type="writer">_basis_function_n_step_prediction: BFNSH: 5 branches</paragraph>
+ <paragraph index="122" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/eb36a01962883f2b8eadbf4cbd0b92f5a6fe836d</paragraph>
+ <paragraph index="123" node_type="writer">&lt;Provide a screenshot of the coverage results output by the instrumentation&gt;</paragraph>
+ <paragraph index="124" node_type="writer">	</paragraph>
+ <paragraph index="129" node_type="writer">Song</paragraph>
+ <paragraph index="131" node_type="writer">1. Function1: _model_prediction with 4 branches</paragraph>
+ <paragraph index="133" node_type="writer">A. Own Coverage measurement in a forked Repository </paragraph>
+ <paragraph index="134" node_type="writer">https://github.com/wilsonrljr/sysidentpy/commit/f5f9fe35616f776d13df541e4d8cb59aba6627f1#diff-a65f03450fbba5edc554aa198ce7b72aa6c492226ff86455d1e39547761fa9e3</paragraph>
+ <paragraph index="135" node_type="writer">B. output</paragraph>
+ <paragraph index="137" node_type="writer">(The coverage Report is generated by an HTML page to increase the readability of the user interface with the tool.)</paragraph>
+ <paragraph index="140" node_type="writer">2. Function2: narmax_predict with 6 branches</paragraph>
+ <paragraph index="142" node_type="writer">A. Own Coverage measurement in a forked Repository </paragraph>
+ <paragraph index="143" node_type="writer">https://github.com/wilsonrljr/sysidentpy/commit/f5f9fe35616f776d13df541e4d8cb59aba6627f1#diff-a65f03450fbba5edc554aa198ce7b72aa6c492226ff86455d1e39547761fa9e3</paragraph>
+ <paragraph index="144" node_type="writer">B. output</paragraph>
+ <paragraph index="145" node_type="writer">It is shown above.</paragraph>
+ <paragraph index="147" node_type="writer">Alpdeniz Sarici Hernandez</paragraph>
+ <paragraph index="149" node_type="writer">split_data</paragraph>
+ <paragraph index="151" node_type="writer">&lt;Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements&gt;</paragraph>
+ <paragraph index="152" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/5f8533aca723990991b6c009238ce7f1f1f3400e </paragraph>
+ <paragraph index="153" node_type="writer">Here is the print coverage function and the dictionary of flags used to save the branches being covered.</paragraph>
+ <paragraph index="155" node_type="writer">&lt;Provide a screenshot of the coverage results output by the instrumentation&gt;</paragraph>
+ <paragraph index="158" node_type="writer">fit</paragraph>
+ <paragraph index="160" node_type="writer">&lt;Provide the same kind of information provided for Function 1&gt;</paragraph>
+ <paragraph index="161" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/5f8533aca723990991b6c009238ce7f1f1f3400e </paragraph>
+ <paragraph index="162" node_type="writer">Here is the print coverage function and the dictionary of flags used to save the branches being covered.</paragraph>
+ <paragraph index="165" node_type="writer">Luc Lacombe</paragraph>
+ <paragraph index="167" node_type="writer">fit</paragraph>
+ <paragraph index="169" node_type="writer">https://github.com/wilsonrljr/sysidentpy/commit/00916ed4e4331723b1efd6bec51eae6902da9e6b </paragraph>
+ <paragraph index="173" node_type="writer">build_system_data</paragraph>
+ <paragraph index="175" node_type="writer">https://github.com/wilsonrljr/sysidentpy/commit/11904f42f6f44d271ebed752e40762a48df3eb34 </paragraph>
+ <paragraph index="177" node_type="writer">## Coverage improvement</paragraph>
+ <paragraph index="179" node_type="writer">### Individual tests</paragraph>
+ <paragraph index="181" node_type="writer">Mike</paragraph>
+ <paragraph index="183" node_type="writer">&lt;Test 1&gt;</paragraph>
+ <paragraph index="185" node_type="writer">&lt;Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test&gt;</paragraph>
+ <paragraph index="187" node_type="writer">&lt;Provide a screenshot of the old coverage results (the same as you already showed above)&gt;</paragraph>
+ <paragraph index="190" node_type="writer">&lt;Provide a screenshot of the new coverage results&gt;</paragraph>
+ <paragraph index="192" node_type="writer">The coverage has improved because every model type and empty input is tested.</paragraph>
+ <paragraph index="195" node_type="writer">Song</paragraph>
+ <paragraph index="197" node_type="writer">Test for 'model_prediction’</paragraph>
+ <object index="198" name="Table1" object_type="table"/>
+ <paragraph index="206" node_type="writer" parent_index="198">In the function, total of 4 branches are identified including 2 invisible else.</paragraph>
+ <paragraph index="209" node_type="writer" parent_index="198">&lt;tests added&gt;</paragraph>
+ <paragraph index="213" node_type="writer" parent_index="198">In the original test tool, only 1 branch has been reached, so three more tests are added to test three other conditions. </paragraph>
+ <paragraph index="214" node_type="writer" parent_index="198">+ 'test_additional_test_1_with_NFIR()','test_additional_test_2_with_NAR()','test_additional_test_5_with_Unknown()'</paragraph>
+ <paragraph index="216" node_type="writer" parent_index="198">In the branch 1</paragraph>
+ <paragraph index="217" node_type="writer" parent_index="198">As a result, it can fully cover all the branches.</paragraph>
+ <paragraph index="221" node_type="writer">Test for '_narmax_predict'</paragraph>
+ <paragraph index="222" node_type="writer">	</paragraph>
+ <object index="223" name="Table2" object_type="table"/>
+ <paragraph index="231" node_type="writer" parent_index="223">In the function, a total of 6 branches are identified including 2 invisible elses.</paragraph>
+ <paragraph index="233" node_type="writer" parent_index="223">&lt;tests added&gt;</paragraph>
+ <paragraph index="237" node_type="writer" parent_index="223">In the original test tool, only 3 branches had been reached, so two more tests are added to test two other conditions. </paragraph>
+ <paragraph index="238" node_type="writer" parent_index="223">+</paragraph>
+ <paragraph index="239" node_type="writer" parent_index="223">'test_additional_test_3_with_Insufficient_initial_conditions()',</paragraph>
+ <paragraph index="240" node_type="writer" parent_index="223">'test_additional_test_4_with_X_none()'</paragraph>
+ <paragraph index="242" node_type="writer" parent_index="223">As a result, it can fully cover all the branches.</paragraph>
+ <paragraph index="246" node_type="writer">Overall result</paragraph>
+ <object index="248" name="Table3" object_type="table"/>
+ <paragraph index="253" node_type="writer" parent_index="248">Before</paragraph>
+ <paragraph index="256" node_type="writer" parent_index="248">After</paragraph>
+ <paragraph index="259" node_type="writer" parent_index="248">coverage by lines</paragraph>
+ <paragraph index="268" node_type="writer" parent_index="248">coverage by branches</paragraph>
+ <paragraph index="280" node_type="writer">Alpdeniz Sarici Hernandez</paragraph>
+ <paragraph index="282" node_type="writer">test_fit_raise_y():</paragraph>
+ <paragraph index="283" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/7c8c931992d506e0c7bfa6aa8b02298b25d53cb1 </paragraph>
+ <paragraph index="288" node_type="writer">Coverage is improved by 1 because I added an assert to cover X=None branch.  Test is modified.</paragraph>
+ <paragraph index="290" node_type="writer">test_fit_lag_nar()</paragraph>
+ <paragraph index="291" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/367f8081382b075056cfb4026ab7e12a49419455 </paragraph>
+ <paragraph index="293" node_type="writer">Coverage is improved by 2 because it tests for verbose being true instead of false in the model. Test is modified</paragraph>
+ <paragraph index="295" node_type="writer">test_split_data_non_polynomial_no_ensemble()</paragraph>
+ <paragraph index="296" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/301319a0243b426de88748ac8fe475b41ad33588 </paragraph>
+ <paragraph index="299" node_type="writer">Improved the coverage by 2 because it tests split_data with a custom basis function where the ensemble is False and not Polynomial.</paragraph>
+ <paragraph index="301" node_type="writer">&lt;Provide the same kind of information provided for Test 1&gt;</paragraph>
+ <paragraph index="302" node_type="writer">test_split_data_y_none()</paragraph>
+ <paragraph index="303" node_type="writer">https://github.com/RAF-Alp/sysidentpy108/commit/7c8c931992d506e0c7bfa6aa8b02298b25d53cb1 </paragraph>
+ <paragraph index="306" node_type="writer">New test function added improves branch coverage by 2 because it checks for the model without the Y parameter. That accesses one branch and then it checks for X being of polynomial type.</paragraph>
+ <paragraph index="309" node_type="writer">Luc Lacombe</paragraph>
+ <paragraph index="311" node_type="writer">test_fit_degree_and_ensemble_branches() </paragraph>
+ <paragraph index="313" node_type="writer">https://github.com/wilsonrljr/sysidentpy/commit/73c737bbbaa00bc9b27b0c8d1317fe7e1ddda114 </paragraph>
+ <paragraph index="319" node_type="writer">The coverage was improved from 5/7 branches reached (71.43%) to 7/7 branches (100%).</paragraph>
+ <paragraph index="320" node_type="writer">The first branch un-covered branch could only be reached if the fourier object of the fit method had a degree greater than one. The second un-covered branch could only be reached if the fourier object's boolean attribute ‘ensemble’ was True.</paragraph>
+ <paragraph index="321" node_type="writer">To reach these two branches and improve the coverage to 7/7 the “test_fit_degree_and_ensemble_branches” test was created which instantiates a fourier object with degree = 2 and ensemble = True and then the fit function is called with the object which enters both branches with the same test.</paragraph>
+ <paragraph index="322" node_type="writer">Finally three asserts are made to ensure the degree and ensemble were correctly set and that the final output of the fit method isnt None ensuring the function worked correctly with the given parameters.</paragraph>
+ <paragraph index="324" node_type="writer">test_build_system_data_static_gain_False_branch()</paragraph>
+ <paragraph index="325" node_type="writer">test_build_system_data_static_function_False_branch()</paragraph>
+ <paragraph index="327" node_type="writer">https://github.com/wilsonrljr/sysidentpy/commit/c2109493d7d025611f814f6f2fb0fc5771f07c7b </paragraph>
+ <paragraph index="332" node_type="writer">The coverage was improved from 3/5 branches reached (60%) to 5/5 branches (100%).</paragraph>
+ <paragraph index="333" node_type="writer">The first branch un-covered branch could only be reached if the AILS object’s ‘static_gain’ boolean attribute was False. The second un-covered branch could only be reached if the AILS object's boolean attribute ‘static_function’ was False.</paragraph>
+ <paragraph index="334" node_type="writer">To reach these two branches and improve the coverage to 7/7 the two test functions were created. The first one (test_build_system_data_static_gain_False_branch()) instantiates an AILS object with ‘static_gain’ set to False and then the build_system_data function is called with the object which enters the first branch. When the branch is entered it returns [y] + [static_function], therefore, to ensure the test is correct we assert that [y] + [static_function] was returned.</paragraph>
+ <paragraph index="335" node_type="writer">The second function one (test_build_system_data_static_function_False_branch()) instantiates an AILS object with ‘static_function’ set to False and then the build_system_data function is called with the object which enters the second branch. When the branch is entered it returns [y] + [static_gain], therefore, to ensure the test is correct we assert that [y] + [static_gain] was returned.</paragraph>
+ <paragraph index="336" node_type="writer">Although both these test functions are similar, since both the un-covered branches both lead to return statements two separate functions had to be made.</paragraph>
+ <paragraph index="339" node_type="writer">### Overall</paragraph>
+ <paragraph index="342" node_type="writer">## Statement of individual contributions</paragraph>
+ <paragraph index="344" node_type="writer">Mike:</paragraph>
+ <paragraph index="345" node_type="writer">I found several open-source Github repositories, counted the lines in them and put them together in a table for discussion. I created unit tests for two functions and a simple coverage tool. </paragraph>
+ <paragraph index="348" node_type="writer">Song:</paragraph>
+ <paragraph index="349" node_type="writer">I improved the print coverage function with HTML code to increase the readability of the test result. My contribution is that I set up the discussion on the meeting plan and the decision on the project schedules. Also, working on two functions to improve the coverage and sharing my approach with colleagues, which might be applicable to other methods. </paragraph>
+ <paragraph index="352" node_type="writer">Alpdeniz Sarici Hernandez:</paragraph>
+ <paragraph index="353" node_type="writer">I made the print coverage function to incorporate the dictionary of branches. With this, we could all output the branches that needed testing in our chosen functions. Once we knew which branches needed to be covered we created tests using arranges, acts, and asserts. Once I reached 80% I created my pull request and merged it with our code. Additionally, I was responsible for helping organize meetings and also clear any doubts we had.</paragraph>
+ <paragraph index="355" node_type="writer">Luc Lacombe:</paragraph>
+ <paragraph index="356" node_type="writer">Besides working on my two functions and improving their coverage, my main contributions to the group were communication and help. I organized many of the online and in person meetings we had and I helped my groupmates with bugs and errors they were running into. For example I helped Alpdeniz fix an issue where many of his tests were failing due to the newest version of numpy not supporting int32 float type variables.</paragraph>
+ <object name="Shape2" alt="" object_type="shape" description=""/>
+ <object name="Shape8" alt="" object_type="shape" description=""/>
+ <object name="Shape12" alt="" object_type="shape" description=""/>
+ <object name="Shape13" alt="" object_type="shape" description=""/>
+ <object name="Shape15" alt="" object_type="shape" description=""/>
+ <object name="Shape22" alt="" object_type="shape" description=""/>
+ <object name="Shape20" alt="" object_type="shape" description=""/>
+ <object name="Shape1" alt="" object_type="shape" description=""/>
+</indexing>
