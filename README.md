@@ -1,24 +1,21 @@
 # Report for Assignment 1
 
-## Project chosen
+## Project Chosen
 
-Name: Sysidentpy
+**Name**: Sysidentpy  
+**URL**: [Sysidentpy Repository](https://github.com/wilsonrljr/sysidentpy)  
+**Number of lines of code and the tool used to count it**: 16039  
+**Programming Language**: Python
 
-URL: (https://github.com/wilsonrljr/sysidentpy)
+## Coverage Measurement
 
-Number of lines of code and the tool used to count it: 16039
+### Existing Tool
 
-Programming language: Python
+**Coverage Tool**: coverage.py  
+**How it was executed**:  
+python -m coverage run -m sysidentpy.neural_network.tests.test_narxnn
+python -m coverage report -m
 
-## Coverage measurement
-
-### Existing tool
-
-Coverage Tool: coverage.py
-
-How it was executed: 	
- python -m coverage run -m sysidentpy.neural_network.tests.test_narxnn
- python -m coverage report -m
  
 <Show the coverage results provided by the existing tool with a screenshot>
 Coverage Results (6%):
