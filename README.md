@@ -225,6 +225,7 @@ To reach these two branches and improve the coverage to 7/7 the “test_fit_degr
 Finally three asserts are made to ensure the degree and ensemble were correctly set and that the final output of the fit method isnt None ensuring the function worked correctly with the given parameters.
 
 test_build_system_data_static_gain_False_branch()
+
 test_build_system_data_static_function_False_branch()
 
 https://github.com/wilsonrljr/sysidentpy/commit/c2109493d7d025611f814f6f2fb0fc5771f07c7b 
