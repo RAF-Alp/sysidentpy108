@@ -122,7 +122,7 @@ The coverage has improved because every model type and empty input is tested.
 
 ## Song
 
-# 1. Test for 'model_prediction’
+### 1. Test for 'model_prediction’
 
 ![Screenshot from 2024-06-27 18-45-17](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/8e674490-a259-4d08-a73a-dc97c7cdbf80)
 
@@ -137,7 +137,7 @@ In the original test tool, only 1 branch has been reached, so three more tests a
 
 As a result, it can fully cover all the branches.
 
-# 2. Test for '_narmax_predict'
+### 2. Test for '_narmax_predict'
 
 ![Screenshot from 2024-06-27 18-49-29](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/37d5af54-114a-4680-8e38-78820286e226)
 ![Screenshot from 2024-06-27 18-49-59](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/a2b78ff2-b54d-46ec-acef-8e19a29baaa6)
