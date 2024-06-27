@@ -6,6 +6,8 @@
 
 **URL:** (https://github.com/wilsonrljr/sysidentpy)
 
+**Project License:** BSD 3-Clause License
+
 **Number of lines of code and the tool used to count it:** 16039
 
 **Programming language:** Python
@@ -26,9 +28,8 @@
 ![Screenshot from 2024-06-27 18-25-36](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/b3099ab2-f613-4a59-90f3-b49dcebb1e2c)
 
 
-
 ### Your own coverage tool
-Set up a FLAG Dictionary, print_coverage() made to print FLAGs after tests have ran:
+Set up a FLAG Dictionary, print_coverage() made to print FLAGs after tests have run:
 
 ![Screenshot from 2024-06-27 18-31-22](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/b1156fde-0a6e-411c-8b3f-277760d27b6f)
 
@@ -36,13 +37,19 @@ In Function Example (Set up and in first two branches):
 
 ![Screenshot from 2024-06-27 18-32-24](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/bb4738d2-186f-4ebb-a851-f3d7e8d2682d)
 
+## Functions Tested
+
+![Screenshot from 2024-06-27 19-20-49](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/23662f63-81c4-4f95-922d-d996c6127011)
+
 ## Mike Voeten
 Functions:
 _basis_function_n_steps_horizon: BFNSP: 8 branches
 _basis_function_n_step_prediction: BFNSH: 5 branches
 
 https://github.com/RAF-Alp/sysidentpy108/commit/eb36a01962883f2b8eadbf4cbd0b92f5a6fe836d
-file:///home/michael/Pictures/Screenshots/Screenshot%20from%202024-06-27%2018-33-54.png
+![Screenshot from 2024-06-27 13-18-39](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/328a75f6-7520-400b-8efc-9adc75489046)
+
+
 
 ## Song
 1. Function1: _model_prediction with 4 branches
