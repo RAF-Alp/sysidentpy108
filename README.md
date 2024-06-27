@@ -44,6 +44,8 @@ In Function Example (Set up and in first two branches):
 ## Mike Voeten
 Functions:
 
+![Screenshot from 2024-06-27 21-35-18](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/948d561a-f8c3-4b2f-9da2-d2a767d03258)
+
 _basis_function_n_steps_horizon: BFNSP: 8 branches
 
 _basis_function_n_step_prediction: BFNSH: 5 branches
@@ -109,13 +111,12 @@ https://github.com/wilsonrljr/sysidentpy/commit/11904f42f6f44d271ebed752e40762a4
 
 ## Mike
 
-<Test 1>
-
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
-
-<Provide a screenshot of the old coverage results (the same as you already showed above)>
-
 ![Screenshot from 2024-06-27 18-42-08](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/ccbd74bb-98c9-4770-8bec-6e7f6181dfb8)
+
+![Screenshot from 2024-06-27 21-35-18](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/2e20a538-fc2e-4443-9c4a-e08f59ed9bdc)
+![Screenshot from 2024-06-27 21-34-52](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/d1ad168b-d987-4160-b5e2-041db8d30b38)
+
+
 
 The coverage has improved because every model type and empty input is tested.
 <Provide a screenshot of the new coverage results>
