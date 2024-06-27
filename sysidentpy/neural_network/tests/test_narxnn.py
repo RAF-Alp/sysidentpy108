@@ -1136,6 +1136,8 @@ def test_nfir_model_type():
     result = model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
     assert_equal(result.shape, (forecast_horizon, 1))
 
+
+
 # Running the tests
 if __name__ == "__main__":
     test_basis_function_n_step_prediction()
