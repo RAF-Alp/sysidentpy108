@@ -658,19 +658,10 @@ def test_steps_3_fourier():
     yhat = model.predict(X=X_test, y=y_test, steps_ahead=3)
     assert_almost_equal(yhat.mean(), y_test.mean(), decimal=2)
 
-=======
     print_coverage()
     generate_html_coverage_report()
 
 
-'''
-self made test functions:
-1. additional_test_1_with_NFIR()
-2. additional_test_2_with_NAR()
-3. additional_test_3_with_Insufficient_initial_conditions()
-4. additional_test_4_with_X_none() !
-5. additional_test_5_with_Unknown()
-'''
 
 def test_additional_test_1_with_NFIR():
     # _narmax_predict, Branch 2
