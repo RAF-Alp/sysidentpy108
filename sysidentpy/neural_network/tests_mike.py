@@ -2,8 +2,10 @@ import unittest
 import numpy as np
 from unittest.mock import patch, MagicMock
 from narx_nn import FLAG, NARXNN
+import random
+import sys
 
-#test_object._basis_function_n_step_prediction
+# test_object._basis_function_n_step_prediction
 # def main():
 #     test_object = NARXNN()
     
@@ -46,10 +48,11 @@ class TestBasisFunctionMethods(unittest.TestCase):
 
     def test_value_error_insufficient_initial_conditions(self):
         X = np.random.rand(10, 1)
-        y = np.random.rand(2, 1) 
+        y = np.random.rand(2, 1)
         steps_ahead = 2
         forecast_horizon = 10
-        with self.assertRaises(ValueError): self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
+        with self.assertRaises(ValueError):
+            self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
 
     def test_value_error_invalid_model_type(self):
         X = np.random.rand(10, 1)
@@ -57,8 +60,10 @@ class TestBasisFunctionMethods(unittest.TestCase):
         steps_ahead = 2
         forecast_horizon = 10
         self.model.model_type = "INVALID"
-        with self.assertRaises(ValueError): self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
-        with self.assertRaises(ValueError): self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
+        with self.assertRaises(ValueError):
+            self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
+        with self.assertRaises(ValueError):
+            self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
 
     def test_nar_model_type(self):
         self.model.model_type = "NAR"
@@ -82,17 +87,20 @@ class TestBasisFunctionMethods(unittest.TestCase):
         result = self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
         self.assertEqual(result.shape, (forecast_horizon, 1))
 
-    def test_flag_coverage(self):
-        global FLAG
-        FLAG = {}
-        X = np.random.rand(10, 1)
-        y = np.random.rand(10, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
-        self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
-        print(FLAG)
+# def measure_coverage():
+#     global FLAG
+#     FLAG = {}
+#     model = NARXNN()
+#     X = np.random.rand(10, 1)
+#     y = np.random.rand(10, 1)
+#     steps_ahead = 2
+#     forecast_horizon = 10
+#     model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
+#     model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
+#     print(FLAG)
+#     print(f"Coverage: {len(FLAG.keys()) // 13}")
 
 if __name__ == '__main__':
-    unittest.main()
-    unittest.test_return_coverage()
+    unittest.main(exit=False)
+    print(FLAG)
+    print(f"Coverage: {round(len([x for x, y in FLAG.items() if y]) / 0.13, 2)}%")
