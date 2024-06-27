@@ -920,7 +920,7 @@ class NARXNN(BaseMSS):
             i += steps_ahead
         FLAG["BFNSP"][9] = 1  # End flag
 
-        print_coverage()  # Print coverage information
+        # print_coverage()  # Print coverage information
         return yhat.reshape(-1, 1)
 
     def _basis_function_n_steps_horizon(self, X, y, steps_ahead, forecast_horizon):

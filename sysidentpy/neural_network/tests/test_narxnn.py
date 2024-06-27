@@ -10,7 +10,7 @@ import unittest
 import numpy as np
 from unittest.mock import patch, MagicMock
 from sysidentpy.neural_network import NARXNN
-# from narx_nn import FLAG, NARXNN
+from sysidentpy.neural_network.narx_nn import FLAG, NARXNN
 import random
 import sys
 torch.manual_seed(0)
@@ -1136,7 +1136,106 @@ def test_nfir_model_type():
     result = model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
     assert_equal(result.shape, (forecast_horizon, 1))
 
+def test_nfir_model_type_new():
+    basis_function = Polynomial(degree=1)
+    regressors = regressor_code(
+        X=X_train,
+        xlag=2,
+        ylag=2,
+        model_type="NFIR",
+        model_representation="neural_network",
+        basis_function=basis_function,
+    )
+    n_features = regressors.shape[0]
 
+    class NARX(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.lin = nn.Linear(n_features, 30)
+            self.lin2 = nn.Linear(30, 30)
+            self.lin3 = nn.Linear(30, 1)
+            self.tanh = nn.Tanh()
+
+        def forward(self, xb):
+            z = self.lin(xb)
+            z = self.tanh(z)
+            z = self.lin2(z)
+            z = self.tanh(z)
+            z = self.lin3(z)
+            return z
+
+    model = NARXNN(
+        net=NARX(),
+        ylag=2,
+        xlag=2,
+        basis_function=basis_function,
+        model_type="NFIR",
+        loss_func="mse_loss",
+        optimizer="Adam",
+        epochs=10,
+        verbose=False,
+        optim_params={
+            "betas": (0.9, 0.999),
+            "eps": 1e-05,
+        },  # optional parameters of the optimizer
+    )
+    steps_ahead = 2
+    forecast_horizon = 10
+    model.fit(X=X_train, y=y_train)
+    result = model._basis_function_n_steps_horizon(X_test, y_test, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
+
+def test_nar_model_type_new():
+    basis_function = Polynomial(degree=1)
+
+    regressors = regressor_code(
+        X=X_train,
+        xlag=2,
+        ylag=2,
+        model_type="NAR",
+        model_representation="neural_network",
+        basis_function=basis_function,
+    )
+    n_features = regressors.shape[0]
+
+    class NARX(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.lin = nn.Linear(n_features, 30)
+            self.lin2 = nn.Linear(30, 30)
+            self.lin3 = nn.Linear(30, 1)
+            self.tanh = nn.Tanh()
+
+        def forward(self, xb):
+            z = self.lin(xb)
+            z = self.tanh(z)
+            z = self.lin2(z)
+            z = self.tanh(z)
+            z = self.lin3(z)
+            return z
+
+    model = NARXNN(
+        net=NARX(),
+        ylag=2,
+        xlag=2,
+        basis_function=basis_function,
+        model_type="NAR",
+        loss_func="mse_loss",
+        optimizer="Adam",
+        epochs=10,
+        verbose=False,
+        optim_params={
+            "betas": (0.9, 0.999),
+            "eps": 1e-05,
+        },  # optional parameters of the optimizer
+    )
+    steps_ahead = 2
+    forecast_horizon = 10
+    model.fit(X=X_train, y=y_train)
+    result = model._basis_function_n_steps_horizon(X_test, y_test, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))   
+    print_coverage()
+    generate_html_coverage_report()
 
 # Running the tests
 if __name__ == "__main__":
