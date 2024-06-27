@@ -46,9 +46,9 @@ Functions:
 
 ![Screenshot from 2024-06-27 21-35-18](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/948d561a-f8c3-4b2f-9da2-d2a767d03258)
 
-_basis_function_n_steps_horizon: BFNSP: 8 branches
+_basis_function_n_steps_horizon: BFNSP: 10 branches
 
-_basis_function_n_step_prediction: BFNSH: 5 branches
+_basis_function_n_step_prediction: BFNSH: 7 branches
 
 **Own Tool:**
 
