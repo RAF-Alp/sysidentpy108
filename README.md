@@ -43,7 +43,9 @@ In Function Example (Set up and in first two branches):
 
 ## Mike Voeten
 Functions:
+
 _basis_function_n_steps_horizon: BFNSP: 8 branches
+
 _basis_function_n_step_prediction: BFNSH: 5 branches
 
 https://github.com/RAF-Alp/sysidentpy108/commit/eb36a01962883f2b8eadbf4cbd0b92f5a6fe836d
