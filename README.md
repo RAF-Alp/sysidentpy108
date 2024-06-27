@@ -36,7 +36,7 @@ In Function Example (Set up and in first two branches):
 
 ![Screenshot from 2024-06-27 18-32-24](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/bb4738d2-186f-4ebb-a851-f3d7e8d2682d)
 
-Mike Voeten
+## Mike Voeten
 Functions:
 _basis_function_n_steps_horizon: BFNSP: 8 branches
 _basis_function_n_step_prediction: BFNSH: 5 branches
@@ -44,7 +44,7 @@ _basis_function_n_step_prediction: BFNSH: 5 branches
 https://github.com/RAF-Alp/sysidentpy108/commit/eb36a01962883f2b8eadbf4cbd0b92f5a6fe836d
 file:///home/michael/Pictures/Screenshots/Screenshot%20from%202024-06-27%2018-33-54.png
 
-Song
+## Song
 1. Function1: _model_prediction with 4 branches
 A. Own Coverage measurement in a forked Repository 
 https://github.com/wilsonrljr/sysidentpy/commit/f5f9fe35616f776d13df541e4d8cb59aba6627f1#diff-a65f03450fbba5edc554aa198ce7b72aa6c492226ff86455d1e39547761fa9e3
@@ -60,7 +60,7 @@ https://github.com/wilsonrljr/sysidentpy/commit/f5f9fe35616f776d13df541e4d8cb59a
 B. output
 It is shown above.
 
-Alpdeniz Sarici Hernandez
+## Alpdeniz Sarici Hernandez
 
 split_data
 
@@ -77,7 +77,7 @@ Here is the print coverage function and the dictionary of flags used to save the
 
 ![Screenshot from 2024-06-27 18-37-09](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/d5bfdbe1-f882-44ba-85d1-78a269ff1470)
 
-Luc Lacombe
+## Luc Lacombe
 fit
 https://github.com/wilsonrljr/sysidentpy/commit/00916ed4e4331723b1efd6bec51eae6902da9e6b 
 
@@ -92,7 +92,7 @@ https://github.com/wilsonrljr/sysidentpy/commit/11904f42f6f44d271ebed752e40762a4
 
 ### Individual tests
 
-Mike
+## Mike
 
 <Test 1>
 
@@ -104,9 +104,10 @@ Mike
 The coverage has improved because every model type and empty input is tested.
 <Provide a screenshot of the new coverage results>
 
-Song
+## Song
 
-1. Test for 'model_prediction’
+# 1. Test for 'model_prediction’
+
 ![Screenshot from 2024-06-27 18-45-17](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/8e674490-a259-4d08-a73a-dc97c7cdbf80)
 
 In the function, total of 4 branches are identified including 2 invisible else.
@@ -120,7 +121,7 @@ In the original test tool, only 1 branch has been reached, so three more tests a
 
 As a result, it can fully cover all the branches.
 
-2. Test for '_narmax_predict'
+# 2. Test for '_narmax_predict'
 
 ![Screenshot from 2024-06-27 18-49-29](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/37d5af54-114a-4680-8e38-78820286e226)
 ![Screenshot from 2024-06-27 18-49-59](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/a2b78ff2-b54d-46ec-acef-8e19a29baaa6)
@@ -149,7 +150,7 @@ Branch coverage after:
 ![Screenshot from 2024-06-27 18-55-13](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/01e77d25-be6a-46cd-9ba6-dfcda2d4c7b2)
 
 
-Alpdeniz Sarici Hernandez
+## Alpdeniz Sarici Hernandez
 test_fit_raise_y():
 https://github.com/RAF-Alp/sysidentpy108/commit/7c8c931992d506e0c7bfa6aa8b02298b25d53cb1 
 
@@ -187,7 +188,7 @@ https://github.com/RAF-Alp/sysidentpy108/commit/7c8c931992d506e0c7bfa6aa8b02298b
 New test function added improves branch coverage by 2 because it checks for the model without the Y parameter. That accesses one branch and then it checks for X being of polynomial type.
 
 
-Luc Lacombe
+## Luc Lacombe
 
 test_fit_degree_and_ensemble_branches() 
 
@@ -225,18 +226,18 @@ Although both these test functions are similar, since both the un-covered branch
 
 ## Statement of individual contributions
 
-Mike:
+# Mike Voeten:
 I found several open-source Github repositories, counted the lines in them and put them together in a table for discussion. I created unit tests for two functions and a simple coverage tool. 
 
 
-Song:
+# Song:
 I improved the print coverage function with HTML code to increase the readability of the test result. My contribution is that I set up the discussion on the meeting plan and the decision on the project schedules. Also, working on two functions to improve the coverage and sharing my approach with colleagues, which might be applicable to other methods. 
 
 
-Alpdeniz Sarici Hernandez:
+# Alpdeniz Sarici Hernandez:
 I made the print coverage function to incorporate the dictionary of branches. With this, we could all output the branches that needed testing in our chosen functions. Once we knew which branches needed to be covered we created tests using arranges, acts, and asserts. Once I reached 80% I created my pull request and merged it with our code. Additionally, I was responsible for helping organize meetings and also clear any doubts we had.
 
-Luc Lacombe:
+# Luc Lacombe:
 Besides working on my two functions and improving their coverage, my main contributions to the group were communication and help. I organized many of the online and in person meetings we had and I helped my groupmates with bugs and errors they were running into. For example I helped Alpdeniz fix an issue where many of his tests were failing due to the newest version of numpy not supporting int32 float type variables.
 
 
@@ -269,11 +270,12 @@ https://github.com/RAF-Alp/G108A2/actions/runs/9698887614/job/26766524998
 
 <Write what each group member did. Use the following table for that and add additional text under it if you see fit.>
 
-| Member | Created workflows | Reviewed workflows | Merged pull requests' number | Issues Closed |
-| --- | --- | --- | --- |
-| Mike | 1 | 1 | 0 | 1 |
-| Song | 8 | 2 | 1 | 1 |
-| Alpdeniz Sarici | 1 | 4 | 4 | 1 |
-| Luc Lacombe | 1 | 4 | 0 | 1 |
+| Member          | Created workflows | Reviewed workflows | Merged pull requests' number | Issues Closed |
+|-----------------|-------------------|--------------------|------------------------------|---------------|
+| Mike            | 1                 | 1                  | 0                            | 1             |
+| Song            | 8                 | 2                  | 1                            | 1             |
+| Alpdeniz Sarici | 1                 | 4                  | 4                            | 1             |
+| Luc Lacombe     | 1                 | 4                  | 0                            | 1             |
+
 
 
