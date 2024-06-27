@@ -8,7 +8,9 @@
 import logging
 import sys
 import warnings
+
 from typing import Dict
+
 
 import numpy as np
 import torch
@@ -28,18 +30,23 @@ logging.basicConfig(
 )
 
 
+
 FLAG : Dict[str, list] = {}
+
 'flag(id:branch) will be added once the branch is reached'
 
 def print_coverage():
     total_branches = 0
     covered_branches = 0
+
+
     print('in print coverage')
 
     for func, flags in FLAG.items():
         print(f"Coverage for {func}:")
         func_total_branches = len(flags)
         func_covered_branches = sum(flags)
+
 
         total_branches += func_total_branches
         covered_branches += func_covered_branches
@@ -105,6 +112,7 @@ def generate_html_coverage_report():
         </body>
     </html>
     """
+
 
     with open('coverage_report.html', 'w') as file:
         file.write(html_content)
@@ -332,24 +340,14 @@ class NARXNN(BaseMSS):
         return loss.item(), len(X)
 
     def split_data(self, X, y):
-        """Return the lagged matrix and the y values given the maximum lags.
+        """Return the lagged matrix and the y values given the maximum lags."""
+        if 'split_data' not in FLAG:
+            FLAG['split_data'] = [0] * 9
 
-        Parameters
-        ----------
-        X : ndarray of floats
-            The input data.
-        y : ndarray of floats
-            The output data.
-
-        Returns
-        -------
-        y : ndarray of floats
-            The y values considering the lags.
-        reg_matrix : ndarray of floats
-            The information matrix of the model.
-
-        """
+        # Branch 1
+        FLAG['split_data'][0] = 1
         if y is None:
+            FLAG['split_data'][1] = 1
             raise ValueError("y cannot be None")
 
         self.max_lag = self._get_max_lag()
@@ -357,22 +355,27 @@ class NARXNN(BaseMSS):
 
         basis_name = self.basis_function.__class__.__name__
         if basis_name == "Polynomial":
+            FLAG['split_data'][2] = 1
             reg_matrix = self.basis_function.fit(
                 lagged_data, self.max_lag, predefined_regressors=None
             )
             reg_matrix = reg_matrix[:, 1:]
         else:
+            FLAG['split_data'][3] = 1
             reg_matrix, self.ensemble = self.basis_function.fit(
                 lagged_data, self.max_lag, predefined_regressors=None
             )
 
         if X is not None:
+            FLAG['split_data'][4] = 1
             self.n_inputs = _num_features(X)
         else:
-            self.n_inputs = 1  # only used to create the regressor space base
+            FLAG['split_data'][5] = 1
+            self.n_inputs = 1
 
         self.regressor_code = self.regressor_space(self.n_inputs)
         if basis_name != "Polynomial" and self.basis_function.ensemble:
+            FLAG['split_data'][6] = 1
             basis_code = np.sort(
                 np.tile(
                     self.regressor_code[1:, :], (self.basis_function.repetition, 1)
@@ -381,6 +384,7 @@ class NARXNN(BaseMSS):
             )
             self.regressor_code = np.concatenate([self.regressor_code[1:], basis_code])
         elif basis_name != "Polynomial" and self.basis_function.ensemble is False:
+            FLAG['split_data'][7] = 1
             self.regressor_code = np.sort(
                 np.tile(
                     self.regressor_code[1:, :], (self.basis_function.repetition, 1)
@@ -389,14 +393,17 @@ class NARXNN(BaseMSS):
             )
 
         if basis_name == "Polynomial":
+            FLAG['split_data'][8] = 1
             self.regressor_code = self.regressor_code[
                 1:
-            ]  # removes the column of the constant
+            ]
 
         self.final_model = self.regressor_code.copy()
         reg_matrix = np.atleast_1d(reg_matrix).astype(np.float32)
 
-        y = np.atleast_1d(y[self.max_lag :]).astype(np.float32)
+        y = np.atleast_1d(y[self.max_lag:]).astype(np.float32)
+        # Call print_coverage to print the branch coverage information
+        print_coverage()
         return reg_matrix, y
 
     def convert_to_tensor(self, reg_matrix, y):
@@ -467,36 +474,17 @@ class NARXNN(BaseMSS):
         return train_dl
 
     def fit(self, *, X=None, y=None, X_test=None, y_test=None):
-        """Train a NARX Neural Network model.
+        """Train a NARX Neural Network model."""
+        if 'fit' not in FLAG:
+            FLAG['fit'] = [0] * 6
 
-        This is an training pipeline that allows a friendly usage
-        by the user. The training pipeline was based on
-        https://pytorch.org/tutorials/beginner/nn_tutorial.html
-
-        Parameters
-        ----------
-        X : ndarray of floats
-            The input data to be used in the training process.
-        y : ndarray of floats
-            The output data to be used in the training process.
-        X_test : ndarray of floats
-            The input data to be used in the prediction process.
-        y_test : ndarray of floats
-            The output data (initial conditions) to be used in the prediction process.
-
-        Returns
-        -------
-        net : nn.Module
-            The model fitted.
-        train_loss: ndarrays of floats
-            The training loss of each batch
-        val_loss: ndarrays of floats
-            The validation loss of each batch
-
-        """
         train_dl = self.data_transform(X, y)
+        # Branch 1
+        FLAG['fit'][0] = 1
         if self.verbose:
+            FLAG['fit'][1] = 1
             if X_test is None or y_test is None:
+                FLAG['fit'][2] = 1
                 raise ValueError(
                     "X_test and y_test cannot be None if you set verbose=True"
                 )
@@ -511,7 +499,10 @@ class NARXNN(BaseMSS):
                 X, y = input_data.to(self.device), output_data.to(self.device)
                 self.loss_batch(X, y, opt=opt)
 
+            # Branch 2
+            FLAG['fit'][3] = 1
             if self.verbose:
+                FLAG['fit'][4] = 1
                 train_losses, train_nums = zip(*[
                     self.loss_batch(X.to(self.device), y.to(self.device))
                     for X, y in train_dl
@@ -532,6 +523,8 @@ class NARXNN(BaseMSS):
                     self.train_loss[epoch],
                     self.val_loss[epoch],
                 )
+            # Call print_coverage to print the branch coverage information
+        print_coverage()
         return self
 
     def predict(self, *, X=None, y=None, steps_ahead=None, forecast_horizon=None):
@@ -924,6 +917,7 @@ class NARXNN(BaseMSS):
             i += steps_ahead
         yhat = yhat.ravel()
         return yhat.reshape(-1, 1)
+
     
 if __name__ == "__main__":
     # Example data
@@ -958,4 +952,4 @@ if __name__ == "__main__":
     except ValueError as e:
         print(f"fit raised ValueError: {e}")
 
-    
+
