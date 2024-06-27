@@ -6,8 +6,6 @@ Programming language used: Python
 
 <Inform which tool is used to compile and test.>
 
-```markdown
-[View narx_nn.py on GitHub](https://github.com/RAF-Alp/sysidentpy108/blob/mike/sysidentpy/neural_network/narx_nn.py)
 
 <Provide the link to one log (from the "Actions" tab on GitHub) of an execution of this workflow>
 
