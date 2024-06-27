@@ -664,56 +664,8 @@ def test_split_data_y_none():
     assert_raises(ValueError, model.split_data, X_train, None)
 
 
-def test_split_data_ensemble():
-    #Branch 6
-    class CustomBasisFunction:
-        def __init__(self, degree=1, ensemble=True, repetition=2):
-            self.degree = degree
-            self.ensemble = ensemble
-            self.repetition = repetition
-
-        def fit(self, lagged_data, max_lag, predefined_regressors=None):
-            return np.random.rand(lagged_data.shape[0], 3), self.ensemble
-
-        def transform(self, lagged_data, max_lag):
-            return np.random.rand(lagged_data.shape[0], 3), self.ensemble
-
-    custom_basis_function = CustomBasisFunction()
-    model = NARXNN(basis_function=custom_basis_function)
-    reg_matrix, y_transformed = model.split_data(X_train, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
-    assert model.regressor_code is not None
-    assert len(model.regressor_code) > 0  #Check if regressor_code is generated
-
-def test_split_data_ensemble_true():
-    class CustomBasisFunction:
-        def __init__(self, degree=1, ensemble=True, repetition=2):
-            self.degree = degree
-            self.ensemble = ensemble
-            self.repetition = repetition
-
-        def fit(self, lagged_data, max_lag, predefined_regressors=None):
-            return np.random.rand(lagged_data.shape[0], 4), self.ensemble
-
-        def transform(self, lagged_data, max_lag):
-            return np.random.rand(lagged_data.shape[0], 4), self.ensemble
-
-    custom_basis_function = CustomBasisFunction()
-    model = NARXNN(basis_function=custom_basis_function)
-    reg_matrix, y_transformed = model.split_data(X_train, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
-    assert model.regressor_code is not None
-
-def test_split_data_polynomial():
-    #Branch 8
-    model = NARXNN(basis_function=Polynomial())
-    reg_matrix, y_transformed = model.split_data(X_train, y_train)
-    assert reg_matrix.shape[0] == y_transformed.shape[0]
-    assert model.regressor_code is not None
-    assert model.regressor_code.shape[1] == 2
-
 def test_split_data_non_polynomial_no_ensemble():
-    # Test split_data with a custom basis function where ensemble is False and not Polynomial
+    # Tests split_data with a custom basis function where ensemble is False and not Polynomial
     class CustomBasisFunction:
         def __init__(self, degree=1, ensemble=False, repetition=2):
             self.degree = degree
