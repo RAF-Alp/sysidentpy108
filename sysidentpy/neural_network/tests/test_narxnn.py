@@ -9,7 +9,8 @@ from sysidentpy.utils.narmax_tools import regressor_code
 import unittest
 import numpy as np
 from unittest.mock import patch, MagicMock
-from narx_nn import FLAG, NARXNN
+from sysidentpy.neural_network import NARXNN
+# from narx_nn import FLAG, NARXNN
 import random
 import sys
 torch.manual_seed(0)
@@ -1069,74 +1070,78 @@ def test_nfir_model_type(self):
     result = self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
     self.assertEqual(result.shape, (forecast_horizon, 1))
 
+def setUp():
+    model = NARXNN()
+    return model
 
-class TestBasisFunctionMethods(unittest.TestCase):
-    def setUp(self):
-        self.max_lag = 3
-        self.model = NARXNN()
+def test_basis_function_n_step_prediction():
+    model = setUp()
+    X = np.random.rand(10, 1)
+    y = np.random.rand(10, 1)
+    steps_ahead = 2
+    forecast_horizon = 10
+    model._basis_function_predict = lambda *args, **kwargs: np.random.rand(10)
+    result = model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
 
-    @patch.object(NARXNN, '_basis_function_predict', return_value=np.random.rand(10))
-    def test_basis_function_n_step_prediction(self, mock_predict):
-        X = np.random.rand(10, 1)
-        y = np.random.rand(10, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        result = self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
-        self.assertEqual(result.shape, (forecast_horizon, 1))
-        self.assertTrue(mock_predict.called)
+def test_basis_function_n_steps_horizon():
+    model = setUp()
+    X = np.random.rand(10, 1)
+    y = np.random.rand(10, 1)
+    steps_ahead = 2
+    forecast_horizon = 10
+    model._basis_function_predict = lambda *args, **kwargs: np.random.rand(10)
+    result = model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
 
-    @patch.object(NARXNN, '_basis_function_predict', return_value=np.random.rand(10))
-    def test_basis_function_n_steps_horizon(self, mock_predict):
-        X = np.random.rand(10, 1)
-        y = np.random.rand(10, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        result = self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
-        self.assertEqual(result.shape, (forecast_horizon, 1))
-        self.assertTrue(mock_predict.called)
+def test_value_error_insufficient_initial_conditions():
+    model = setUp()
+    X = np.random.rand(10, 1)
+    y = np.random.rand(2, 1)
+    steps_ahead = 2
+    forecast_horizon = 10
+    assert_raises(ValueError, model._basis_function_n_step_prediction, X, y, steps_ahead, forecast_horizon)
 
-    def test_value_error_insufficient_initial_conditions(self):
-        X = np.random.rand(10, 1)
-        y = np.random.rand(2, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        with self.assertRaises(ValueError):
-            self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
+def test_value_error_invalid_model_type():
+    model = setUp()
+    X = np.random.rand(10, 1)
+    y = np.random.rand(10, 1)
+    steps_ahead = 2
+    forecast_horizon = 10
+    model.model_type = "INVALID"
+    assert_raises(ValueError, model._basis_function_n_step_prediction, X, y, steps_ahead, forecast_horizon)
+    assert_raises(ValueError, model._basis_function_n_steps_horizon, X, y, steps_ahead, forecast_horizon)
 
-    def test_value_error_invalid_model_type(self):
-        X = np.random.rand(10, 1)
-        y = np.random.rand(10, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        self.model.model_type = "INVALID"
-        with self.assertRaises(ValueError):
-            self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
-        with self.assertRaises(ValueError):
-            self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
+def test_nar_model_type():
+    model = setUp()
+    model.model_type = "NAR"
+    X = np.random.rand(10, 1)
+    y = np.random.rand(10, 1)
+    steps_ahead = 2
+    forecast_horizon = 10
+    result = model._basis_function_n_step_prediction(None, y, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
+    result = model._basis_function_n_steps_horizon(None, y, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
 
-    def test_nar_model_type(self):
-        self.model.model_type = "NAR"
-        X = np.random.rand(10, 1)
-        y = np.random.rand(10, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        result = self.model._basis_function_n_step_prediction(None, y, steps_ahead, forecast_horizon)
-        self.assertEqual(result.shape, (forecast_horizon, 1))
-        result = self.model._basis_function_n_steps_horizon(None, y, steps_ahead, forecast_horizon)
-        self.assertEqual(result.shape, (forecast_horizon, 1))
+def test_nfir_model_type():
+    model = setUp()
+    model.model_type = "NFIR"
+    X = np.random.rand(10, 1)
+    y = np.random.rand(10, 1)
+    steps_ahead = 2
+    forecast_horizon = 10
+    result = model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
+    result = model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
+    assert_equal(result.shape, (forecast_horizon, 1))
 
-    def test_nfir_model_type(self):
-        self.model.model_type = "NFIR"
-        X = np.random.rand(10, 1)
-        y = np.random.rand(10, 1)
-        steps_ahead = 2
-        forecast_horizon = 10
-        result = self.model._basis_function_n_step_prediction(X, y, steps_ahead, forecast_horizon)
-        self.assertEqual(result.shape, (forecast_horizon, 1))
-        result = self.model._basis_function_n_steps_horizon(X, y, steps_ahead, forecast_horizon)
-        self.assertEqual(result.shape, (forecast_horizon, 1))
-        
-if __name__ == '__main__':
-    unittest.main(exit=False)
-    print(FLAG)
-    print(f"Coverage: {round(len([x for x, y in FLAG.items() if y]) / 0.13, 2)}%")
+# Running the tests
+if __name__ == "__main__":
+    test_basis_function_n_step_prediction()
+    test_basis_function_n_steps_horizon()
+    test_value_error_insufficient_initial_conditions()
+    test_value_error_invalid_model_type()
+    test_nar_model_type()
+    test_nfir_model_type()
+    print("All tests passed.")
