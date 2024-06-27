@@ -2,8 +2,28 @@ import numpy as np
 from numpy.testing import assert_almost_equal, assert_array_equal
 from numpy.testing import assert_raises
 
+#Added assert_equal
+from numpy.testing import assert_equal
+
 from sysidentpy.basis_function import Polynomial, Fourier
 
+
+
+def test_fit_degree_and_ensemble_branches():
+    data = np.array([
+        [1, 2],
+        [3, 4]
+    ])
+    
+    # Create Fourier object with degree > 1 and ensemble=True
+    fourier = Fourier(n=1, degree=2, ensemble=True)
+    
+    # Call fit
+    psiOutput, ensembleOutput = fourier.fit(data, max_lag=1)
+    
+    assert_equal(fourier.degree, 2)
+    assert_equal(ensembleOutput, True)
+    assert psiOutput is not None
 
 def test_fit_polynomial():
     basis_function = Polynomial(degree=2)
@@ -14,7 +34,6 @@ def test_fit_polynomial():
     r = basis_function.fit(data=data, max_lag=max_lag)
 
     assert_array_equal(output, r)
-
 
 def test_fit_polynomial_predefined():
     basis_function = Polynomial(degree=2)

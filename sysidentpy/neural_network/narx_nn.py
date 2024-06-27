@@ -5,9 +5,13 @@
 # License: BSD 3 clause
 
 
+# Luc Branch Test Push
+
 import logging
 import sys
 import warnings
+from typing import Dict
+
 
 from typing import Dict
 
@@ -19,7 +23,10 @@ from torch import optim
 from torch.utils.data import DataLoader, TensorDataset
 
 from sysidentpy.narmax_base import BaseMSS
+
+
 from sysidentpy.basis_function import Polynomial
+
 from sysidentpy.utils._check_arrays import _check_positive_int, _num_features
 
 logging.basicConfig(
@@ -31,7 +38,9 @@ logging.basicConfig(
 
 
 
+
 FLAG : Dict[str, list] = {}
+
 
 'flag(id:branch) will be added once the branch is reached'
 
@@ -117,8 +126,6 @@ def generate_html_coverage_report():
     with open('coverage_report.html', 'w') as file:
         file.write(html_content)
 
-
-        
 class NARXNN(BaseMSS):
     """NARX Neural Network model build on top of Pytorch.
 
@@ -156,51 +163,51 @@ class NARXNN(BaseMSS):
 
     Examples
     --------
-    >>> from torch import nn
-    >>> import numpy as np
-    >>> import pandas as pd
-    >>> import matplotlib.pyplot as plt
-    >>> from sysidentpy.metrics import mean_squared_error
-    >>> from sysidentpy.utils.generate_data import get_siso_data
-    >>> from sysidentpy.neural_network import NARXNN
-    >>> from sysidentpy.utils.generate_data import get_siso_data
-    >>> x_train, x_valid, y_train, y_valid = get_siso_data(
-    ...     n=1000,
-    ...     colored_noise=False,
-    ...     sigma=0.01,
-    ...     train_percentage=80
-    ... )
-    >>> narx_nn = NARXNN(
-    ...     ylag=2,
-    ...     xlag=2,
-    ...     basis_function=basis_function,
-    ...     model_type="NARMAX",
-    ...     loss_func='mse_loss',
-    ...     optimizer='Adam',
-    ...     epochs=200,
-    ...     verbose=False,
-    ...     optim_params={'betas': (0.9, 0.999), 'eps': 1e-05} # for the optimizer
-    ... )
-    >>> class Net(nn.Module):
-    ...     def __init__(self):
-    ...         super().__init__()
-    ...         self.lin = nn.Linear(4, 10)
-    ...         self.lin2 = nn.Linear(10, 10)
-    ...         self.lin3 = nn.Linear(10, 1)
-    ...         self.tanh = nn.Tanh()
-    >>>
-    ...     def forward(self, xb):
-    ...         z = self.lin(xb)
-    ...         z = self.tanh(z)
-    ...         z = self.lin2(z)
-    ...         z = self.tanh(z)
-    ...         z = self.lin3(z)
-    ...         return z
-    >>>
-    >>> narx_nn.net = Net()
-    >>> neural_narx.fit(X=x_train, y=y_train)
-    >>> yhat = neural_narx.predict(X=x_valid, y=y_valid)
-    >>> print(mean_squared_error(y_valid, yhat))
+    # >>> from torch import nn
+    # >>> import numpy as np
+    # >>> import pandas as pd
+    # >>> import matplotlib.pyplot as plt
+    # >>> from sysidentpy.metrics import mean_squared_error
+    # >>> from sysidentpy.utils.generate_data import get_siso_data
+    # >>> from sysidentpy.neural_network import NARXNN
+    # >>> from sysidentpy.utils.generate_data import get_siso_data
+    # >>> x_train, x_valid, y_train, y_valid = get_siso_data(
+    # ...     n=1000,
+    # ...     colored_noise=False,
+    # ...     sigma=0.01,
+    # ...     train_percentage=80
+    # ... )
+    # >>> narx_nn = NARXNN(
+    # ...     ylag=2,
+    # ...     xlag=2,
+    # ...     basis_function=basis_function,
+    # ...     model_type="NARMAX",
+    # ...     loss_func='mse_loss',
+    # ...     optimizer='Adam',
+    # ...     epochs=200,
+    # ...     verbose=False,
+    # ...     optim_params={'betas': (0.9, 0.999), 'eps': 1e-05} # for the optimizer
+    # ... )
+    # >>> class Net(nn.Module):
+    # ...     def __init__(self):
+    # ...         super().__init__()
+    # ...         self.lin = nn.Linear(4, 10)
+    # ...         self.lin2 = nn.Linear(10, 10)
+    # ...         self.lin3 = nn.Linear(10, 1)
+    # ...         self.tanh = nn.Tanh()
+    # >>>
+    # ...     def forward(self, xb):
+    # ...         z = self.lin(xb)
+    # ...         z = self.tanh(z)
+    # ...         z = self.lin2(z)
+    # ...         z = self.tanh(z)
+    # ...         z = self.lin3(z)
+    # ...         return z
+    # >>>
+    # >>> narx_nn.net = Net()
+    # >>> neural_narx.fit(X=x_train, y=y_train)
+    # >>> yhat = neural_narx.predict(X=x_valid, y=y_valid)
+    # >>> print(mean_squared_error(y_valid, yhat))
     0.000131
 
     References
@@ -406,6 +413,7 @@ class NARXNN(BaseMSS):
         print_coverage()
         return reg_matrix, y
 
+
     def convert_to_tensor(self, reg_matrix, y):
         """Return the lagged matrix and the y values given the maximum lags.
 
@@ -465,7 +473,13 @@ class NARXNN(BaseMSS):
         Tensors : Dataloader
 
         """
+        if '_data_transform' not in FLAG:
+            FLAG['_data_transform'] = [0] * 2
+
+        FLAG['_data_transform'][0] = 1
+
         if y is None:
+            FLAG['_data_transform'][1] = 1
             raise ValueError("y cannot be None")
 
         x_train, y_train = self.split_data(X, y)
@@ -592,16 +606,23 @@ class NARXNN(BaseMSS):
                The 1-step-ahead predicted values of the model.
 
         """
+        if '_one_step_ahead_prediction' not in FLAG:
+            FLAG['_one_step_ahead_prediction'] = [0] * 3
+
+        FLAG['_one_step_ahead_prediction'][0] = 1
+
         lagged_data = self.build_matrix(X, y)
 
         basis_name = self.basis_function.__class__.__name__
         if basis_name == "Polynomial":
+            FLAG['_one_step_ahead_prediction'][1] = 1
             X_base = self.basis_function.transform(
                 lagged_data,
                 self.max_lag,
             )
             X_base = X_base[:, 1:]
         else:
+            FLAG['_one_step_ahead_prediction'][2] = 1
             X_base, _ = self.basis_function.transform(
                 lagged_data,
                 self.max_lag,
@@ -917,6 +938,7 @@ class NARXNN(BaseMSS):
             i += steps_ahead
         yhat = yhat.ravel()
         return yhat.reshape(-1, 1)
+
 
     
 if __name__ == "__main__":
