@@ -22,6 +22,7 @@ How it was executed:
  
 <Show the coverage results provided by the existing tool with a screenshot>
 Coverage Results (6%):
+ 
 ![Screenshot from 2024-06-27 18-25-36](https://github.com/RAF-Alp/sysidentpy108/assets/118909280/b3099ab2-f613-4a59-90f3-b49dcebb1e2c)
 
 
